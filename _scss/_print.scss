@@ -1,0 +1,44 @@
+.links, .link {
+    display: none;
+}
+
+.info {
+    display: block;
+    margin: 0;
+    width: 100%;
+}
+
+.info > * {
+    display: inline;
+    padding: 0 #{$margin / 2};
+}
+
+.info > * + * {
+    border-left: 1px solid $border-color;
+}
+
+h1, h2, h3, h4, h5, h6,
+p, blockquote, img, pre, li {
+    break-after: avoid-page;
+}
+
+@page {
+    margin: 2cm;
+}
+
+html {
+    font-size: 10pt;
+}
+
+body {
+    padding: none;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    color: #222;
+
+    & > .sub-header {
+        color: #ddd;
+    }
+}
