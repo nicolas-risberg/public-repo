@@ -2,6 +2,7 @@
 layout: post
 categories: posts
 title: "Volumetric Lighting: Light shafts from a directional light source in DirectX11"
+featured-image: /images/shafts_final2.jpg
 tags: [sample post, readability, test, intro]
 date-string: MARCH 08, 2021
 ---
