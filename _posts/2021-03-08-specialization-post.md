@@ -13,19 +13,21 @@ date-string: MARCH 08, 2021
 </center>
 
 <details>
-<summary>View Code</summary>
+<summary>I could use some help...</summary>
 <p>
 
-```c++
-class CBoxLight
+```c#
+public class Order
 {
-    CBoxLight();
-    ~CBoxLight();
+    public int OrderId { get; set; }
+    public int CustomerId { get; set; }
+
+    public List<int> Products { get; set; }
 }
 ```
 
 </p>
-</details>
+</details> 
 
 ```c++
 class CBoxLight
