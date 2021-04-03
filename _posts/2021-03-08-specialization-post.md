@@ -12,9 +12,10 @@ date-string: MARCH 08, 2021
     <img src="https://i.gyazo.com/50f60e42af467e14210511b1872b1dbe.gif">
 </center>
 
+<br>
 <details>
   <summary>View Code</summary>
-```C++
+```c++
 class CBoxLight
 {
     CBoxLight();
