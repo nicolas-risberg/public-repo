@@ -13,7 +13,7 @@ date-string: MARCH 08, 2021
 </center>
 
 <details>
-  <summary>View Code</summary>
+<summary>View Code</summary>
 <p>
 
 ```c++
@@ -24,6 +24,7 @@ class CBoxLight
 }
 ```
 
+</p>
 </details>
 
 ```c++
