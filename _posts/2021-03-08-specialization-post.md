@@ -12,6 +12,7 @@ date-string: MARCH 08, 2021
     <img src="https://i.gyazo.com/50f60e42af467e14210511b1872b1dbe.gif">
 </center>
 
+{::options parse_block_html="true" /}
 <details>
 <summary>View Code</summary>
 <p>
@@ -26,43 +27,7 @@ class CBoxLight
 
 </p>
 </details>
-
-<button onclick="myFunction()">Try it</button>
-
-<div id="myDIV">
-<p>
-
-```c++
-class CBoxLight
-{
-    CBoxLight();
-    ~CBoxLight();
-}
-```
-
-</p>
-</div>
-
-<p><b>Note:</b> The element will not take up any space when the display property set to "none".</p>
-
-<script>
-function myFunction() {
-  var x = document.getElementById("myDIV");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-</script>
-
-```c++
-class CBoxLight
-{
-    CBoxLight();
-    ~CBoxLight();
-}
-```
+{::options parse_block_html="false" /}
 
 Portland in shoreditch Vice, labore typewriter pariatur hoodie fap sartorial Austin. Pinterest literally occupy Schlitz forage. Odio ad blue bottle vinyl, 90's narwhal commodo bitters pour-over nostrud. Ugh est hashtag in, fingerstache adipisicing laboris esse Pinterest shabby chic Portland. Shoreditch bicycle rights anim, flexitarian laboris put a bird on it vinyl cupidatat narwhal. Hashtag artisan skateboard, flannel Bushwick nesciunt salvia aute fixie do plaid post-ironic dolor McSweeney's. Cliche pour-over chambray nulla four loko skateboard sapiente hashtag.
 
