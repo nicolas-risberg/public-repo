@@ -30,7 +30,15 @@ class CBoxLight
 <button onclick="myFunction()">Try it</button>
 
 <div id="myDIV">
-This is my DIV element.
+
+```c++
+class CBoxLight
+{
+    CBoxLight();
+    ~CBoxLight();
+}
+```
+
 </div>
 
 <p><b>Note:</b> The element will not take up any space when the display property set to "none".</p>
