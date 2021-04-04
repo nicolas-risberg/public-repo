@@ -30,6 +30,7 @@ class CBoxLight
 <button onclick="myFunction()">Try it</button>
 
 <div id="myDIV">
+<p>
 
 ```c++
 class CBoxLight
@@ -39,6 +40,7 @@ class CBoxLight
 }
 ```
 
+</p>
 </div>
 
 <p><b>Note:</b> The element will not take up any space when the display property set to "none".</p>
