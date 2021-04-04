@@ -14,9 +14,14 @@ date-string: MARCH 08, 2021
 
 {::options parse_block_html="true" /}
 
-<details><summary markdown="span">Let's see some code!</summary>
-```python
-print('Hello World!')
+<details><summary markdown="span">View Code</summary>
+```c++
+class CBoxLight 
+{
+public:
+    CBoxLight();
+    ~CBoxLight();
+}
 ```
 
 </details>
