@@ -13,9 +13,10 @@ date-string: MARCH 08, 2021
 </center>
 
 <details>
-<summary>View Code</summary><p>
+<summary>View Code</summary>
+<p>
 
-```c#
+```
 class CBoxLight
 {
     CBoxLight();
@@ -23,7 +24,8 @@ class CBoxLight
 }
 ```
 
-</p></details>
+</p>
+</details>
 
 ```c++
 class CBoxLight
