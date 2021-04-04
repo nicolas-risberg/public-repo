@@ -1,25 +1,53 @@
 ---
-layout: post
+layout: post-index
 title: Highlights
 ---
-<p>
-This theme is available for free under the MIT open source software license.
-<br>
-The theme can be found <a href="https://github.com/benradford/Slate-and-Simple-Jekyll-Theme">here</a>.
-<br>
-The theme requires <a href="https://jekyllrb.com">Jekyll</a>, a static-site generator compatible with <a href="https://pages.github.com">pages.github.com</a>.
-</p>
 
-<hr>
+{% for post in paginator.posts %}
+<article>
+    
+    <!-- POST FEATURED IMAGE -->
+    <div class="featured-image">
+    <img src="{{ post.featured-image}}" style="width:100%">
+    </div>
 
-<p>
-Maecenas tempus ullamcorper ante, sed eleifend purus mollis a. Sed ut molestie eros. Etiam arcu mi, consequat id ligula nec, faucibus dictum tortor. Ut tempus felis non commodo luctus. Nunc ac ullamcorper leo. Suspendisse et lorem eu leo iaculis vehicula nec vel mauris. Nullam eget porta ante.
-</p>
+    <!-- POST TITLE -->
+    <header>
+        <h1 class="entry-title">
+            <a href="{{ site.url }}{{ post.url }}" rel="bookmark" title="{{ post.title }}" itemprop="url">{{ post.title }}</a>
+        </h1>
+        <h3 class="entry-subtitle">
+            <a href="{{ site.url }}{{ post.url }}" rel="bookmark" title="{{ post.title }}" itemprop="url">{{ post.subtitle }}</a>
+        </h3>
+    </header>
 
-<p>
-Nunc tellus justo, pharetra sit amet blandit nec, mattis eu turpis. Praesent efficitur posuere nunc, non dapibus lectus placerat eget. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean a tincidunt velit. Nam ac ultricies metus. Morbi non erat ac nunc rutrum congue. Aliquam ultrices viverra felis quis pharetra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-</p>
-
-<p>
-Phasellus pellentesque odio eget massa finibus, in aliquam lectus tincidunt. Suspendisse potenti. Fusce nisi ipsum, facilisis sed nunc non, congue gravida augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ut elementum nulla. Ut iaculis elit ac lectus elementum, mollis porta ex ultricies. Maecenas pretium lectus quis vulputate feugiat. Curabitur vitae ex in eros eleifend volutpat vitae sed dui.
-</p>
+    <!-- POST CONTENT -->
+<!--     <div class="entry-content">
+        {{ post.content }}
+    </div> -->
+    
+    <!--- DIVIDING LINE -->
+    <hr>
+    
+    <!-- POST TAGS -->
+    <div class="inline-tags">
+        <span>
+        {% for tag in post.tags %}
+            <a href="/tags/#{{tag}}">#{{ tag }}&nbsp;&nbsp;&nbsp;</a>
+        {% endfor %}
+        </span>
+    </div>
+    
+    <br>
+    
+    <!-- POST DATE -->
+    <div class="post-date">
+        <span class="entry-date date published updated">
+            <time datetime="{{ post.date | date_to_xmlschema }}">
+                <a href="{{ site.url }}{{ post.url }}">{{ post.date | date: "%B %d, %Y" }}</a>
+            </time>
+        </span>
+    </div>
+    
+</article>
+{% endfor %}
