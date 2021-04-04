@@ -13,7 +13,7 @@ date-string: MARCH 08, 2021
 </center>
 
 {::options parse_block_html="true" /}
-<details><summary markdown="span">View Codez</summary>
+<details><summary markdown="span">View Code</summary>
 
 ```c++
 class CBoxLight 
