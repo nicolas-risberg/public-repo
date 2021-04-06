@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nicolas Risberg Online Portfolio</title>
+    <description>Online Portfolio showcasing schoolwork done at The Game Assembly in Stockholm, 2021 as well as my CV and other cool things.</description>
+    <link>/</link>
+    <atom:link href="nathanrooy.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 06 Apr 2021 22:13:39 +0200</pubDate>
+    <lastBuildDate>Tue, 06 Apr 2021 22:13:39 +0200</lastBuildDate>
+    <generator>Jekyll v4.2.0</generator>
+      
+    
+    <item>
+        <title>Game Project 7 - I Am</title>
+        <description>
+</description>
+        <pubDate>Tue, 06 Apr 2021 00:00:00 +0200</pubDate>
+        
+        <link>/2021-04-06/game-project-7.html</link>
+          
+        
+            <category>rendering</category>
+        
+            <category>ui</category>
+        
+            <category>vfx</category>
+        
+            <category>audio</category>
+        
+          
+        
+            <category>projects</category>
+        
+          
+      </item>
+    
+    <item>
+        <title>Volumetric Lighting: Light shafts from a directional light source in DirectX11</title>
+        <description>&lt;center&gt;
+    &lt;img src=&quot;https://i.gyazo.com/50f60e42af467e14210511b1872b1dbe.gif&quot; /&gt;
+&lt;/center&gt;
+
+&lt;details&gt;
+  &lt;summary&gt;View Code&lt;/summary&gt;
+
+  &lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CBoxLight&lt;/span&gt; 
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;CBoxLight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CBoxLight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/details&gt;
+</description>
+        <pubDate>Tue, 06 Apr 2021 00:00:00 +0200</pubDate>
+        
+        <link>/2021-04-06/specialization.html</link>
+          
+        
+            <category>specialization</category>
+        
+            <category>volumetric lighting</category>
+        
+            <category>rendering</category>
+        
+          
+        
+            <category>highlights</category>
+        
+          
+      </item>
+    
+    <item>
+        <title>VFX Editor using ImGui</title>
+        <description>
+</description>
+        <pubDate>Tue, 30 Mar 2021 00:00:00 +0200</pubDate>
+        
+        <link>/2021-03-30/vfx-editor.html</link>
+          
+        
+            <category>vfx</category>
+        
+            <category>imgui</category>
+        
+            <category>tools</category>
+        
+          
+        
+            <category>highlights</category>
+        
+          
+      </item>
+    
+    <item>
+        <title>Deferred Decals</title>
+        <description>
+</description>
+        <pubDate>Mon, 01 Mar 2021 00:00:00 +0100</pubDate>
+        
+        <link>/2021-03-01/deferred-decals.html</link>
+          
+        
+            <category>deferred rendering</category>
+        
+            <category>decals</category>
+        
+            <category>rendering</category>
+        
+          
+        
+            <category>highlights</category>
+        
+          
+      </item>
+    
+    <item>
+        <title>Game Project 6 - Spite Bloodloss</title>
+        <description>
+</description>
+        <pubDate>Tue, 22 Dec 2020 00:00:00 +0100</pubDate>
+        
+        <link>/2020-12-22/game-project-6.html</link>
+          
+        
+            <category>project</category>
+        
+            <category>gameplay</category>
+        
+            <category>vfx</category>
+        
+            <category>rendering</category>
+        
+          
+        
+            <category>projects</category>
+        
+          
+      </item>
+    
+    <item>
+        <title>Game Project 5 - Ellah</title>
+        <description>
+</description>
+        <pubDate>Wed, 17 Jun 2020 00:00:00 +0200</pubDate>
+        
+        <link>/2020-06-17/game-project-5.html</link>
+          
+        
+            <category>project</category>
+        
+            <category>gameplay</category>
+        
+            <category>particle system</category>
+        
+          
+        
+            <category>projects</category>
+        
+          
+      </item>
+    
+  </channel>
+</rss>
