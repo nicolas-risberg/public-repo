@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post-index-category
 title: Game Projects
 permalink: /projects/
 pagination:
@@ -7,5 +7,5 @@ pagination:
   category: projects
   permalink: /:num/
   sort_field: 'date'
-  sort_reverse: false
+  sort_reverse: true
 ---

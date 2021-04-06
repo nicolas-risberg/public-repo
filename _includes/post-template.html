@@ -1,19 +1,11 @@
----
-layout: post-index-category
-title: Highlights
-pagination:
-  enabled: true
----
-
-{% for post in paginator.posts %}
 <article>
-    
-     <!--POST FEATURED IMAGE--> 
+
+    <!--POST FEATURED IMAGE-->
     <div class="featured-image">
-    <img src="{{ post.featured-image}}" style="width:100%">
+        <img src="{{ post.featured-image}}" style="width:100%">
     </div>
 
-     <!--POST TITLE--> 
+    <!--POST TITLE-->
     <header>
         <h1 class="entry-title">
             <a href="{{ site.url }}{{ post.url }}" rel="bookmark" title="{{ post.title }}" itemprop="url">{{ post.title }}</a>
@@ -23,23 +15,22 @@ pagination:
         </h3>
     </header>
 
-     <!--POST CONTENT--> 
-    
-    <!--- DIVIDING LINE--> 
+    <!--POST CONTENT-->
+    <!--- DIVIDING LINE-->
     <hr>
-    
-     <!--POST TAGS--> 
+
+    <!--POST TAGS-->
     <div class="inline-tags">
         <span>
-        {% for tag in post.tags %}
+            {% for tag in post.tags %}
             <a href="/tags/#{{tag}}">#{{ tag }}&nbsp;&nbsp;&nbsp;</a>
-        {% endfor %}
+            {% endfor %}
         </span>
     </div>
-    
+
     <br>
-    
-     <!--POST DATE--> 
+
+    <!--POST DATE-->
     <div class="post-date">
         <span class="entry-date date published updated">
             <time datetime="{{ post.date | date_to_xmlschema }}">
@@ -47,6 +38,5 @@ pagination:
             </time>
         </span>
     </div>
-    
+
 </article>
-{% endfor %}
