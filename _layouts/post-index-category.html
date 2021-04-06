@@ -6,12 +6,12 @@
 <head>
     {% include head.html %}
     <!--HEADER IMAGE-->
-    <center>
+    <!--<center>
         <span class="main-header-image">
             <a href="/"><img src="/images/header/clean-and-simple-header.jpg"></a>
         </span>
     </center>
-    <br>
+    <br>-->
     <center>
         <span class="main-header-image">
             <h1 style="font-weight:100; font-kerning:normal"><a href="/">{{ site.title }}</a></h1>
@@ -33,9 +33,20 @@
     <!--MAIN-->
     <div id="main" role="main">
         {{ content }}
+
+        <ul class="post-list">
+            <!--
+        Here is the main paginator logic called.
+        All calls to site.posts should be replaced by paginator.posts
+    -->
+            {% for post in paginator.posts %}
+            {% include post-template.html post=post %}
+            {% endfor %}
+
+        </ul>
     </div>
 </body>
- <!--FOOTER-->
+<!--FOOTER-->
 <footer>
     <div class="footer-wrapper">
         <footer role="contentinfo">

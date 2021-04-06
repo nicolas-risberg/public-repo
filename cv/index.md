@@ -1,6 +1,8 @@
 ---
 layout: post
 title: CV & Cover Letter
+pagination:
+  enabled: true
 ---
 <p>
 This theme is available for free under the MIT open source software license.
