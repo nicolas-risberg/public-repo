@@ -1,6 +1,6 @@
 ---
 layout: post
-categories: posts
+categories: projects
 title: Sample Post
 subtitle: This is a test post.
 featured-image: /images/2016-11-19/abstract-1.jpg
