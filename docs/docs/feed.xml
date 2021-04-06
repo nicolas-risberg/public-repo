@@ -5,8 +5,8 @@
     <description>Online Portfolio showcasing schoolwork done at The Game Assembly in Stockholm, 2021 as well as my CV and other cool things.</description>
     <link>/</link>
     <atom:link href="nathanrooy.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 06 Apr 2021 19:39:28 +0200</pubDate>
-    <lastBuildDate>Tue, 06 Apr 2021 19:39:28 +0200</lastBuildDate>
+    <pubDate>Tue, 06 Apr 2021 19:20:12 +0200</pubDate>
+    <lastBuildDate>Tue, 06 Apr 2021 19:20:12 +0200</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
       
     
@@ -74,16 +74,14 @@
 </description>
         <pubDate>Mon, 08 Mar 2021 00:00:00 +0100</pubDate>
         
-        <link>/2021-03-08/specialization-post.html</link>
+        <link>/posts/2021-03-08/specialization-post.html</link>
           
         
             <category>specialization</category>
         
           
         
-            <category>highlights</category>
-        
-            <category>highlight</category>
+            <category>posts</category>
         
           
       </item>
@@ -219,14 +217,14 @@
 </description>
         <pubDate>Sun, 20 Nov 2016 00:00:00 +0100</pubDate>
         
-        <link>/2016-11-20/sample-post.html</link>
+        <link>/posts/2016-11-20/sample-post.html</link>
           
         
             <category>sample post</category>
         
           
         
-            <category>projects</category>
+            <category>posts</category>
         
           
       </item>
@@ -277,14 +275,14 @@
 </description>
         <pubDate>Sat, 19 Nov 2016 00:00:00 +0100</pubDate>
         
-        <link>/2016-11-19/image-post.html</link>
+        <link>/posts/2016-11-19/image-post.html</link>
           
         
             <category>sample post</category>
         
           
         
-            <category>projects</category>
+            <category>posts</category>
         
           
       </item>
@@ -395,7 +393,7 @@
 </description>
         <pubDate>Fri, 18 Nov 2016 00:00:00 +0100</pubDate>
         
-        <link>/2016-11-18/code-highlighting-post.html</link>
+        <link>/posts/2016-11-18/code-highlighting-post.html</link>
           
         
             <category>sample post</category>
@@ -406,9 +404,7 @@
         
           
         
-            <category>highlights</category>
-        
-            <category>highlight</category>
+            <category>posts</category>
         
           
       </item>
@@ -426,7 +422,7 @@
 </description>
         <pubDate>Mon, 14 Nov 2016 00:00:00 +0100</pubDate>
         
-        <link>/2016-11-14/video-post.html</link>
+        <link>/posts/2016-11-14/video-post.html</link>
           
         
             <category>sample post</category>
@@ -435,7 +431,7 @@
         
           
         
-            <category>projects</category>
+            <category>posts</category>
         
           
       </item>
@@ -485,7 +481,7 @@
 </description>
         <pubDate>Thu, 10 Nov 2016 00:00:00 +0100</pubDate>
         
-        <link>/2016-11-10/readability-post.html</link>
+        <link>/posts/2016-11-10/readability-post.html</link>
           
         
             <category>sample post</category>
@@ -498,7 +494,7 @@
         
           
         
-            <category>highlights</category>
+            <category>posts</category>
         
           
       </item>
