@@ -81,7 +81,7 @@
             <li><a href="/cv/">CV</a></li>
             <!--<li><a href="/archives/">ARCHIVE</a></li>-->
             <li><a href="/tags/">TAGS</a></li>
-            <!--<li><a href="/about/">ABOUT</a></li>-->
+            <li><a href="/about/">ABOUT</a></li>
             <!--<li><a href="/feed.xml">RSS</a></li>-->
             <!--<li><a href="https://www.github.com/benradford/Slate-and-Simple-Jekyll-Theme">GET THEME</a></li>-->
         </ul>
@@ -98,7 +98,7 @@
         <article class="hentry">
 
             <div class="featured-image">
-            <img src="/images/shafts_final2.jpg" style="width:100%">
+            <img src="/images/shafts_gif.gif" style="width:100%">
             </div>
 
             <!-- MAIN -->
@@ -113,7 +113,26 @@
 
             <!-- POST CONTENT -->
             <div class="entry-content">
-                <center>
+                <h2 id="introduction">Introduction</h2>
+
+<p>Concurrently with our seventh game project at The Game Assembly, we had the opportunity to specialize; to plan an independent foray into a subject which we wanted to explore further.</p>
+
+<p>For my specialization I chose to try and implement volumetric lighting in our custom game engine. My main goal was to implement a volumetric directional light, and to optimize it best I could.
+Would there be time left, my secondary goal was to extend this implementation to point lights, spot lights and what I called “box” lights.</p>
+
+<p>We had five weeks half-time to do this, as well as setting up our personal portfolio. I planned for letting my secondary goal slide, and to focus on my main goal.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>I based my implementation on a <strong><a href="https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen">talk</a></strong> at Digital Dragons by Benjamin Glatzel for Deck 13’s Lords of The Fallen.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup></p>
+
+<p>After loading the CryTek Sponza scene using our model loading pipeline, I set out to create a first working version of a volumetric directional light.</p>
+
+<h2 id="optimization">Optimization</h2>
+
+<h3 id="honorable-mentions">Honorable Mentions</h3>
+
+<center>
     <img src="https://i.gyazo.com/50f60e42af467e14210511b1872b1dbe.gif" />
 </center>
 
@@ -129,6 +148,13 @@
 </code></pre></div>  </div>
 
 </details>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p><a href="https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen">https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen</a> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
 
             </div>
 
