@@ -113,7 +113,11 @@
 
             <!-- POST CONTENT -->
             <div class="entry-content">
-                <h2 id="introduction">Introduction</h2>
+                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>window.jQuery || document.write('<script src="_/js/libs/jquery-1.9.1.min.js"><\/script>')</script>
+
+<h2 id="introduction">Introduction</h2>
 
 <p>Concurrently with our seventh game project at The Game Assembly, we had the opportunity to specialize; to plan an independent foray into a subject which we wanted to explore further.</p>
 
@@ -124,37 +128,210 @@ Would there be time left, my secondary goal was to extend this implementation to
 
 <h2 id="implementation">Implementation</h2>
 
-<p>I based my implementation on a <strong><a href="https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen">talk</a></strong> at Digital Dragons by Benjamin Glatzel for Deck 13’s Lords of The Fallen.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup></p>
+<p><em>I based my implementation on a</em> <strong><a href="https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen">talk</a></strong> <em>at Digital Dragons by Benjamin Glatzel for Deck 13’s Lords of The Fallen.</em></p>
 
-<p>After loading the CryTek Sponza scene using our model loading pipeline, I set out to create a first working version of a volumetric directional light.</p>
+<p><em>After loading the Crytek Sponza scene using our model loading pipeline, I set out to create a first working version of a volumetric directional light.
+Shadowmapping was ready for the directional light so I started with ray marching in the fragment shader of a separate light pass.</em></p>
 
-<h2 id="optimization">Optimization</h2>
-
-<h3 id="honorable-mentions">Honorable Mentions</h3>
-
-<center>
-    <img src="https://i.gyazo.com/50f60e42af467e14210511b1872b1dbe.gif" />
-</center>
+<p>The current fragment’s world position is extracted from the depth map. Then the world space camera position and fragment position are transformed into light view space and the ray marching direction is calculated from these.
+An upper limit on the ray marched distance is set using this difference prior to normalization, and the size of each ray marching step is determined using a tweakable number of samples.</p>
 
 <details>
-  <summary>View Code</summary>
+  <summary><strong>View Code</strong></summary>
 
-  <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CBoxLight</span> 
+  <div class="language-hlsl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">PixelOutput</span> <span class="nf">main</span><span class="p">(</span><span class="n">VertexToPixel</span> <span class="n">input</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="nl">public:</span>
-    <span class="n">CBoxLight</span><span class="p">();</span>
-    <span class="o">~</span><span class="n">CBoxLight</span><span class="p">();</span>
+    <span class="n">PixelOutput</span> <span class="n">output</span><span class="p">;</span>
+    
+    <span class="n">float</span> <span class="n">raymarchDistanceLimit</span> <span class="o">=</span> <span class="mi">999</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+
+    <span class="kt">float3</span> <span class="n">worldPosition</span> <span class="o">=</span> <span class="n">PixelShader_WorldPosition</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">myUV</span><span class="p">).</span><span class="n">rgb</span><span class="p">;</span>
+    <span class="kt">float3</span> <span class="n">camPosition</span> <span class="o">=</span> <span class="n">cameraPosition</span><span class="p">.</span><span class="n">xyz</span><span class="p">;</span>
+    
+    <span class="n">worldPosition</span> <span class="o">-=</span> <span class="n">directionalLightPosition</span><span class="p">.</span><span class="n">xyz</span><span class="p">;</span>
+    <span class="kt">float3</span> <span class="n">positionLightVS</span> <span class="o">=</span> <span class="nb">mul</span><span class="p">(</span><span class="n">toDirectionalLightView</span><span class="p">,</span> <span class="n">worldPosition</span><span class="p">);</span>
+   
+    <span class="n">camPosition</span> <span class="o">-=</span> <span class="n">directionalLightPosition</span><span class="p">.</span><span class="n">xyz</span><span class="p">;</span>
+    <span class="kt">float3</span> <span class="n">cameraPositionLightVS</span> <span class="o">=</span> <span class="nb">mul</span><span class="p">(</span><span class="n">toDirectionalLightView</span><span class="p">,</span> <span class="n">camPosition</span><span class="p">);</span>
+
+    <span class="kt">float4</span> <span class="n">invViewDirLightVS</span> <span class="o">=</span> <span class="kt">float4</span><span class="p">(</span><span class="nb">normalize</span><span class="p">(</span><span class="n">cameraPositionLightVS</span><span class="p">.</span><span class="n">xyz</span> <span class="o">-</span> <span class="n">positionLightVS</span><span class="p">.</span><span class="n">xyz</span><span class="p">),</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">float</span> <span class="n">raymarchDistance</span> <span class="o">=</span> <span class="nb">clamp</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">cameraPositionLightVS</span><span class="p">.</span><span class="n">xyz</span> <span class="o">-</span> <span class="n">positionLightVS</span><span class="p">.</span><span class="n">xyz</span><span class="p">),</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="n">raymarchDistanceLimit</span><span class="p">);</span>
+
+    <span class="n">float</span> <span class="n">stepSize</span> <span class="o">=</span> <span class="n">raymarchDistance</span> <span class="o">*</span> <span class="n">numberOfSamplesReciprocal</span><span class="p">;</span>
+
+    <span class="kt">float3</span> <span class="n">rayPositionLightVS</span> <span class="o">=</span> <span class="n">positionLightVS</span><span class="p">.</span><span class="n">xyz</span><span class="p">;</span>
+    
+    <span class="c1">// The total light contribution accumulated along the ray</span>
+    <span class="kt">float3</span> <span class="n">VLI</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+
+    <span class="p">[</span><span class="nb">loop</span><span class="p">]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">float</span> <span class="n">l</span> <span class="o">=</span> <span class="n">raymarchDistance</span><span class="p">;</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="n">stepSize</span><span class="p">;</span> <span class="n">l</span> <span class="o">-=</span> <span class="n">stepSize</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">ExecuteRaymarching</span><span class="p">(</span><span class="n">rayPositionLightVS</span><span class="p">,</span> <span class="n">invViewDirLightVS</span><span class="p">.</span><span class="n">xyz</span><span class="p">,</span> <span class="n">stepSize</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">VLI</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="n">output</span><span class="p">.</span><span class="n">myColor</span><span class="p">.</span><span class="n">rgb</span> <span class="o">=</span> <span class="n">directionalLightColor</span><span class="p">.</span><span class="n">rgb</span> <span class="o">*</span> <span class="n">VLI</span><span class="p">;</span>
+    <span class="n">output</span><span class="p">.</span><span class="n">myColor</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">output</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>  </div>
 
 </details>
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:1" role="doc-endnote">
-      <p><a href="https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen">https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen</a> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>
+
+<p>In the <code class="language-plaintext highlighter-rouge">ExecuteRaymarching</code> function, the ray position is incremented towards the camera position and the accumulated light contribution is calculated using the in-scattering term of the 
+<strong><a href="https://en.wikipedia.org/wiki/Radiative_transfer">Radiative Transfer Equation</a></strong>, ignoring multiple scattering. 
+In the directional light case, there is no world space attenuation calculated here, but the source power of the light and the scattering probability can be tweaked outside of the shader.</p>
+
+<details>
+  <summary><strong>View Code</strong></summary>
+
+  <div class="language-hlsl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">ExecuteRaymarching</span><span class="p">(</span><span class="k">inout</span> <span class="kt">float3</span> <span class="n">rayPositionLightVS</span><span class="p">,</span> <span class="kt">float3</span> <span class="n">invViewDirLightVS</span><span class="p">,</span> <span class="n">float</span> <span class="n">stepSize</span><span class="p">,</span> <span class="n">float</span> <span class="n">l</span><span class="p">,</span> <span class="k">inout</span> <span class="kt">float3</span> <span class="n">VLI</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">rayPositionLightVS</span><span class="p">.</span><span class="n">xyz</span> <span class="o">+=</span> <span class="n">stepSize</span> <span class="o">*</span> <span class="n">invViewDirLightVS</span><span class="p">.</span><span class="n">xyz</span><span class="p">;</span>
+
+    <span class="kt">float3</span> <span class="n">visibilityTerm</span> <span class="o">=</span> <span class="n">ShadowFactor</span><span class="p">(</span><span class="n">rayPositionLightVS</span><span class="p">.</span><span class="n">xyz</span><span class="p">).</span><span class="n">xxx</span><span class="p">;</span>
+    
+    <span class="c1">// Distance to the current position on the ray in light view space</span>
+    <span class="n">float</span> <span class="n">d</span> <span class="o">=</span> <span class="nb">length</span><span class="p">(</span><span class="n">rayPositionLightVS</span><span class="p">.</span><span class="n">xyz</span><span class="p">);</span>
+    <span class="n">float</span> <span class="n">dRcp</span> <span class="o">=</span> <span class="nb">rcp</span><span class="p">(</span><span class="n">d</span><span class="p">);</span> <span class="c1">// reciprocal</span>
+    
+    <span class="kt">float3</span> <span class="n">intensity</span> <span class="o">=</span> <span class="n">scatteringProbability</span> 
+        <span class="o">*</span> <span class="p">(</span><span class="n">visibilityTerm</span> <span class="o">*</span> <span class="p">(</span><span class="n">lightPower</span> <span class="o">*</span> <span class="mi">0</span><span class="p">.</span><span class="mi">25</span> <span class="o">*</span> <span class="n">PI_RCP</span><span class="p">)</span> <span class="o">*</span> <span class="n">dRcp</span> <span class="o">*</span> <span class="n">dRcp</span><span class="p">)</span> 
+        <span class="o">*</span> <span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="n">d</span> <span class="o">*</span> <span class="n">scatteringProbability</span><span class="p">)</span> 
+        <span class="o">*</span> <span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="n">l</span> <span class="o">*</span> <span class="n">scatteringProbability</span><span class="p">)</span> 
+        <span class="o">*</span> <span class="n">stepSize</span><span class="p">;</span>
+    
+    <span class="n">VLI</span> <span class="o">+=</span> <span class="n">intensity</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+
+</details>
+
+<p>Without any optimizations, this render pass is prohibitively expensive, requiring between 64 and 128 samples per fragment on a full resolution target to look serviceable.</p>
+
+<center>
+    <div class="photoset-grid-custom">
+       <img src="/images/shafts.jpg" />
+    </div>
+</center>
+
+<h2 id="optimization">Optimization</h2>
+
+<p><em>The two primary optimizations I implemented were rendering volumetrics to a half-resolution accumulation buffer, and interleaved sampling (see</em> <strong><a href="https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen">Glatzel</a></strong> <em>slide 42).
+Rendering to a half-resolution target meant having to blur the accumulation buffer in order to hide the fact. Together with interleaved sampling, the number of samples required per fragment was minimized to the point that performance increased in the end, however.</em></p>
+
+<p>Before executing the ray marching, an offset to the starting position is calculated based on an 8 by 8 grid and the number of samples is reduced, taking advantage of the fact that the intensity differs by small amounts between neighboring fragments.
+This reduces the number of necessary samples to as low as 16 samples.</p>
+
+<details>
+  <summary><strong>View Code</strong></summary>
+
+  <div class="language-hlsl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">PixelOutput</span> <span class="nf">main</span><span class="p">(</span><span class="n">VertexToPixel</span> <span class="n">input</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="p">[...]</span>
+
+    <span class="n">float</span> <span class="n">stepSize</span> <span class="o">=</span> <span class="n">raymarchDistance</span> <span class="o">*</span> <span class="n">numberOfSamplesReciprocal</span><span class="p">;</span>
+    
+    <span class="c1">// Input position offset by 0.5f from center of fragment</span>
+    <span class="kt">float2</span> <span class="n">interleavedPosition</span> <span class="o">=</span> <span class="nb">fmod</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">myPosition</span><span class="p">.</span><span class="n">xy</span> <span class="o">-</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span><span class="p">,</span> <span class="n">INTERLEAVED_GRID_SIZE</span><span class="p">);</span>
+
+    <span class="n">float</span> <span class="n">index</span> <span class="o">=</span> <span class="p">(</span><span class="nb">floor</span><span class="p">(</span><span class="n">interleavedPosition</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">INTERLEAVED_GRID_SIZE</span> <span class="o">+</span> <span class="nb">floor</span><span class="p">(</span><span class="n">interleavedPosition</span><span class="p">.</span><span class="n">x</span><span class="p">));</span>
+
+    <span class="c1">// lightVolumetricRandomRayIndices contains the values 0..63 in a randomized order</span>
+    <span class="n">float</span> <span class="n">rayStartOffset</span> <span class="o">=</span> <span class="n">lightVolumetricRandomRayIndices</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">stepSize</span> <span class="o">*</span> <span class="n">INTERLEAVED_GRID_SIZE_SQR_RCP</span><span class="p">);</span> 
+    
+    <span class="kt">float3</span> <span class="n">rayPositionLightVS</span> <span class="o">=</span> <span class="n">rayStartOffset</span> <span class="o">*</span> <span class="n">invViewDirLightVS</span><span class="p">.</span><span class="n">xyz</span> <span class="o">+</span> <span class="n">positionLightVS</span><span class="p">.</span><span class="n">xyz</span><span class="p">;</span>
+
+    <span class="kt">float3</span> <span class="n">VLI</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    
+    <span class="c1">// Start ray marching</span>
+    <span class="p">[</span><span class="nb">loop</span><span class="p">]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">float</span> <span class="n">l</span> <span class="o">=</span> <span class="n">raymarchDistance</span><span class="p">;</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span> <span class="o">*</span> <span class="n">stepSize</span><span class="p">;</span> <span class="n">l</span> <span class="o">-=</span> <span class="n">stepSize</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">ExecuteRaymarching</span><span class="p">(</span><span class="n">rayPositionLightVS</span><span class="p">,</span> <span class="n">invViewDirLightVS</span><span class="p">.</span><span class="n">xyz</span><span class="p">,</span> <span class="n">stepSize</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">VLI</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="p">[...]</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+
+</details>
+
+<p>After rendering to the accumulation buffer a bilateral Gaussian blur is applied, separated in horizontal and vertical passes. The advantage of a bilateral blur is that it is edge preserving, contrary to a regular Gaussian blur.</p>
+
+<center>
+    <div class="photoset-grid-custom" data-layout="2">
+        <img src="/images/gaussian_blur.png" />
+        <img src="/images/bilateral_blur.jpg" />
+    </div>
+</center>
+
+<p>The bilateral passes will smear the inside of the light volumes while preserving the edges.</p>
+
+<details>
+  <summary><strong>View Code</strong></summary>
+
+  <div class="language-hlsl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Horizontal</span>
+<span class="n">PixelOutput</span> <span class="nf">main</span><span class="p">(</span><span class="n">VertexToPixel</span> <span class="n">input</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">PixelOutput</span> <span class="n">returnValue</span><span class="p">;</span>
+	
+    <span class="n">float</span> <span class="n">texelSize</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span> <span class="o">/</span> <span class="p">(</span><span class="n">myResolution</span><span class="p">.</span><span class="n">x</span> <span class="o">/</span> <span class="mi">8</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">);</span>
+    <span class="kt">float3</span> <span class="n">blurColor</span> <span class="o">=</span> <span class="kt">float3</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">float</span> <span class="n">normalizationFactor</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="n">float</span> <span class="n">bZ</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">/</span> <span class="n">normpdf</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">SIGMA</span><span class="p">);</span>
+    <span class="n">float</span> <span class="n">colorFactor</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="kt">float3</span> <span class="n">originalPixelValue</span> <span class="o">=</span> <span class="n">fullscreenTexture1</span><span class="p">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">defaultSampler</span><span class="p">,</span> <span class="n">input</span><span class="p">.</span><span class="n">myUV</span><span class="p">.</span><span class="n">xy</span><span class="p">).</span><span class="n">rgb</span><span class="p">;</span>
+    
+    <span class="kt">unsigned</span> <span class="n">int</span> <span class="n">kernelSize</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+    <span class="n">float</span> <span class="n">start</span> <span class="o">=</span> <span class="p">(((</span><span class="n">float</span><span class="p">)</span> <span class="p">(</span><span class="n">kernelSize</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">kernelSize</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">float2</span> <span class="n">uv</span> <span class="o">=</span> <span class="n">input</span><span class="p">.</span><span class="n">myUV</span><span class="p">.</span><span class="n">xy</span> <span class="o">+</span> <span class="kt">float2</span><span class="p">(</span><span class="n">texelSize</span> <span class="o">*</span> <span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">float</span><span class="p">)</span> <span class="n">i</span><span class="p">),</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">);</span>
+        <span class="kt">float3</span> <span class="n">resource</span> <span class="o">=</span> <span class="n">fullscreenTexture1</span><span class="p">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">defaultSampler</span><span class="p">,</span> <span class="n">uv</span><span class="p">).</span><span class="n">rgb</span><span class="p">;</span>
+        <span class="kt">float3</span> <span class="n">resourceDepth</span> <span class="o">=</span> <span class="n">fullscreenTexture2</span><span class="p">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">defaultSampler</span><span class="p">,</span> <span class="n">uv</span><span class="p">).</span><span class="n">rgb</span><span class="p">;</span>
+        <span class="n">colorFactor</span> <span class="o">=</span> <span class="n">normpdf3</span><span class="p">(</span><span class="n">resource</span> <span class="o">-</span> <span class="n">originalPixelValue</span><span class="p">,</span> <span class="n">SIGMA</span><span class="p">)</span> <span class="o">*</span> <span class="n">bZ</span> <span class="o">*</span> <span class="n">gaussianKernel5</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">normalizationFactor</span> <span class="o">+=</span> <span class="n">colorFactor</span><span class="p">;</span>
+        <span class="n">blurColor</span> <span class="o">+=</span> <span class="n">resource</span> <span class="o">*</span> <span class="n">colorFactor</span><span class="p">;</span>
+    <span class="p">}</span>
+	
+    <span class="n">returnValue</span><span class="p">.</span><span class="n">myColor</span><span class="p">.</span><span class="n">rgb</span> <span class="o">=</span> <span class="n">blurColor</span> <span class="o">/</span> <span class="n">normalizationFactor</span><span class="p">;</span>
+    <span class="n">returnValue</span><span class="p">.</span><span class="n">myColor</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">returnValue</span><span class="p">;</span> 
+<span class="p">};</span>
+</code></pre></div>  </div>
+
+</details>
+
+<p>If the <code class="language-plaintext highlighter-rouge">colorFactor</code> variable is not weighted by an appropriate measure (such as depth) the result may look blurry around the edges of the volume, especially for hard-to-define fading edges where attenuation takes place. This is not done above, as I could not produce satisfying results.</p>
+
+<h2 id="honorable-mentions">Honorable Mentions</h2>
+
+<h2 id="reflections">Reflections</h2>
+
+<script src="/assets/js/jquery.photoset-grid.js"></script>
+
+<script type="text/javascript">
+    $('.photoset-grid-custom').photosetGrid({
+    // Set the gutter between columns and rows
+    gutter: '5px',
+  
+    // Wrap the images in links
+    highresLinks: true,
+  
+    // Asign a common rel attribute
+    rel: 'print-gallery',
+
+    onInit: function(){},
+    
+    onComplete: function(){
+        // Show the grid after it renders
+        $('.photoset-grid-custom').attr('style', '');
+    }
+});
+</script>
+
 
             </div>
 
