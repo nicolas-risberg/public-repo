@@ -1,7 +1,7 @@
 ---
 layout: post
 categories: highlights
-title: "Volumetric Lighting: Light shafts from a directional light source in DirectX11"
+title: "Specialization: Volumetric Lighting in DirectX11"
 featured-image: /images/shafts_gif.gif
 tags: [specialization, volumetric lighting, rendering]
 date-string: APRIL 06, 2021
@@ -19,12 +19,12 @@ Would there be time left, my secondary goal was to extend this implementation to
 
 We had five weeks half-time to do this, as well as setting up our personal portfolio. I planned for letting my secondary goal slide, and to focus on my main goal.
 
+I based my implementation on a talk at Digital Dragons by Benjamin **<a href="https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen">Glatzel</a>** for Deck 13's Lords of The Fallen.
+
+After loading the Crytek Sponza scene using our model loading pipeline, I set out to create a first working version of a volumetric directional light.
+Shadowmapping was ready for the directional light so I started with ray marching in the fragment shader of a separate light pass.
+
 ## Implementation
-
-*I based my implementation on a* **<a href="https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen">talk</a>** *at Digital Dragons by Benjamin Glatzel for Deck 13's Lords of The Fallen.*
-
-*After loading the Crytek Sponza scene using our model loading pipeline, I set out to create a first working version of a volumetric directional light.
-Shadowmapping was ready for the directional light so I started with ray marching in the fragment shader of a separate light pass.*
 
 The current fragment's world position is extracted from the depth map. Then the world space camera position and fragment position are transformed into light view space and the ray marching direction is calculated from these.
 An upper limit on the ray marched distance is set using this difference prior to normalization, and the size of each ray marching step is determined using a tweakable number of samples.
@@ -144,7 +144,6 @@ PixelOutput main(VertexToPixel input)
 
     float3 VLI = 0.0f;
     
-    // Start ray marching
     [loop]
     for (float l = raymarchDistance; l > 2.0f * stepSize; l -= stepSize)
     {
@@ -192,7 +191,6 @@ PixelOutput main(VertexToPixel input)
     {
         float2 uv = input.myUV.xy + float2(texelSize * (start + (float) i), 0.0f);
         float3 resource = fullscreenTexture1.Sample(defaultSampler, uv).rgb;
-        float3 resourceDepth = fullscreenTexture2.Sample(defaultSampler, uv).rgb;
         colorFactor = normpdf3(resource - originalPixelValue, SIGMA) * bZ * gaussianKernel5[i];
         normalizationFactor += colorFactor;
         blurColor += resource * colorFactor;
@@ -207,11 +205,39 @@ PixelOutput main(VertexToPixel input)
 </details>
 {::options parse_block_html="false" /}
 
-If the `colorFactor` variable is not weighted by an appropriate measure (such as depth) the result may look blurry around the edges of the volume, especially for hard-to-define fading edges where attenuation takes place. This is not done above, as I could not produce satisfying results.
+If the `colorFactor` variable is not weighted by an appropriate measure (such as depth) the result may look noisy or pixelated around the edges of the volume, especially for hard-to-define fading edges where attenuation takes place. This is not done above, as I could not produce satisfying results.
 
 ## Honorable Mentions
 
+Having a fairly quick initial setup, I tried accomplishing my secondary goal prior to optimizing. Point lights were implemented but had utilised no shadowmapping, so I started with ray marching from the point lights and created two other light types from scratch hoping I would have the time realize shadow mapping for all of them.
+
+The other two light types were spot lights and what I called "box" lights. Box because they differ from the usual rectangle or area lights in that they have no angular falloff at the edges, essentially working as localized directional lights.
+
+All the lights were provided geometry; a cube for point lights, a pyramid shape for spots and a cuboid for the box lights. They all functioned as light sources, but while I solved the actual volumetrics for box and point lights, I ran out of time before I could accurately provide shadow mapping for either of them.
+This meant the visibility function could not be evaluated, rendering them virtually unusable for volumetric lighting. 
+
+<center>
+    <div class="photoset-grid-custom" data-layout="2">
+        <img src="/images/point_light.jpg">
+        <img src="/images/box_light.jpg">
+    </div>
+</center>
+
+I did explore different phase functions however, using the **<a href="https://www.astro.umd.edu/~jph/HG_note.pdf">Henyey-Greenstein</a>** phase function as the default on the box light, with a tweakable `g`-value (`g = 0`, isotropic scattering above).
+
+*Note the noisy edges of the directional light in the right picture above, as well as at the ends of the box light itself.*
+
 ## Reflections
+
+All in all I am satisfied in reaching my primary goal, which was to implement a volumetric directional light and to try and optimize it best I could. 
+
+I would not underestimate the time needed to create the other light types from scratch again though. 
+I found myself working on the basic lighting of the box light and spot light more than I expected, and if given the choice again I would have focused on optimizing
+for the directional light prior to working with new light types. 
+
+I ventured to try out all the steps of the optimization outlined by **<a href="https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen">Glatzel</a>**,
+including "nearest depth up-sampling" (see slide 38), to further make up for the fact that we are rendering to a half-resolution target. I could not make this work to satisfaction, but would be greatly beneficial
+in making the volumetric directional light look good I believe.
 
 <script src="/assets/js/jquery.photoset-grid.js"></script>
 

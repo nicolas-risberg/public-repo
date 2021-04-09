@@ -5,8 +5,8 @@
     <description>Online Portfolio showcasing schoolwork done at The Game Assembly in Stockholm, 2021 as well as my CV and other cool things.</description>
     <link>/</link>
     <atom:link href="nathanrooy.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 08 Apr 2021 22:45:17 +0200</pubDate>
-    <lastBuildDate>Thu, 08 Apr 2021 22:45:17 +0200</lastBuildDate>
+    <pubDate>Fri, 09 Apr 2021 10:42:33 +0200</pubDate>
+    <lastBuildDate>Fri, 09 Apr 2021 10:42:33 +0200</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
       
     
@@ -37,7 +37,7 @@
       </item>
     
     <item>
-        <title>Volumetric Lighting: Light shafts from a directional light source in DirectX11</title>
+        <title>Specialization: Volumetric Lighting in DirectX11</title>
         <description>&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&quot;&gt;&lt;/script&gt;
 
 &lt;script&gt;window.jQuery || document.write(&apos;&lt;script src=&quot;_/js/libs/jquery-1.9.1.min.js&quot;&gt;&lt;\/script&gt;&apos;)&lt;/script&gt;
@@ -51,12 +51,12 @@ Would there be time left, my secondary goal was to extend this implementation to
 
 &lt;p&gt;We had five weeks half-time to do this, as well as setting up our personal portfolio. I planned for letting my secondary goal slide, and to focus on my main goal.&lt;/p&gt;
 
+&lt;p&gt;I based my implementation on a talk at Digital Dragons by Benjamin &lt;strong&gt;&lt;a href=&quot;https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen&quot;&gt;Glatzel&lt;/a&gt;&lt;/strong&gt; for Deck 13’s Lords of The Fallen.&lt;/p&gt;
+
+&lt;p&gt;After loading the Crytek Sponza scene using our model loading pipeline, I set out to create a first working version of a volumetric directional light.
+Shadowmapping was ready for the directional light so I started with ray marching in the fragment shader of a separate light pass.&lt;/p&gt;
+
 &lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;I based my implementation on a&lt;/em&gt; &lt;strong&gt;&lt;a href=&quot;https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen&quot;&gt;talk&lt;/a&gt;&lt;/strong&gt; &lt;em&gt;at Digital Dragons by Benjamin Glatzel for Deck 13’s Lords of The Fallen.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;After loading the Crytek Sponza scene using our model loading pipeline, I set out to create a first working version of a volumetric directional light.
-Shadowmapping was ready for the directional light so I started with ray marching in the fragment shader of a separate light pass.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;The current fragment’s world position is extracted from the depth map. Then the world space camera position and fragment position are transformed into light view space and the ray marching direction is calculated from these.
 An upper limit on the ray marched distance is set using this difference prior to normalization, and the size of each ray marching step is determined using a tweakable number of samples.&lt;/p&gt;
@@ -169,7 +169,6 @@ This reduces the number of necessary samples to as low as 16 samples.&lt;/p&gt;
 
     &lt;span class=&quot;kt&quot;&gt;float3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VLI&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
     
-    &lt;span class=&quot;c1&quot;&gt;// Start ray marching&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;raymarchDistance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stepSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stepSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -215,7 +214,6 @@ This reduces the number of necessary samples to as low as 16 samples.&lt;/p&gt;
     &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
         &lt;span class=&quot;kt&quot;&gt;float2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;myUV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;texelSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
         &lt;span class=&quot;kt&quot;&gt;float3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fullscreenTexture1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;defaultSampler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rgb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;float3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resourceDepth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fullscreenTexture2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;defaultSampler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rgb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
         &lt;span class=&quot;n&quot;&gt;colorFactor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;normpdf3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;originalPixelValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SIGMA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bZ&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gaussianKernel5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
         &lt;span class=&quot;n&quot;&gt;normalizationFactor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;colorFactor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
         &lt;span class=&quot;n&quot;&gt;blurColor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;colorFactor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -229,11 +227,39 @@ This reduces the number of necessary samples to as low as 16 samples.&lt;/p&gt;
 
 &lt;/details&gt;
 
-&lt;p&gt;If the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;colorFactor&lt;/code&gt; variable is not weighted by an appropriate measure (such as depth) the result may look blurry around the edges of the volume, especially for hard-to-define fading edges where attenuation takes place. This is not done above, as I could not produce satisfying results.&lt;/p&gt;
+&lt;p&gt;If the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;colorFactor&lt;/code&gt; variable is not weighted by an appropriate measure (such as depth) the result may look noisy or pixelated around the edges of the volume, especially for hard-to-define fading edges where attenuation takes place. This is not done above, as I could not produce satisfying results.&lt;/p&gt;
 
 &lt;h2 id=&quot;honorable-mentions&quot;&gt;Honorable Mentions&lt;/h2&gt;
 
+&lt;p&gt;Having a fairly quick initial setup, I tried accomplishing my secondary goal prior to optimizing. Point lights were implemented but had utilised no shadowmapping, so I started with ray marching from the point lights and created two other light types from scratch hoping I would have the time realize shadow mapping for all of them.&lt;/p&gt;
+
+&lt;p&gt;The other two light types were spot lights and what I called “box” lights. Box because they differ from the usual rectangle or area lights in that they have no angular falloff at the edges, essentially working as localized directional lights.&lt;/p&gt;
+
+&lt;p&gt;All the lights were provided geometry; a cube for point lights, a pyramid shape for spots and a cuboid for the box lights. They all functioned as light sources, but while I solved the actual volumetrics for box and point lights, I ran out of time before I could accurately provide shadow mapping for either of them.
+This meant the visibility function could not be evaluated, rendering them virtually unusable for volumetric lighting.&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;div class=&quot;photoset-grid-custom&quot; data-layout=&quot;2&quot;&gt;
+        &lt;img src=&quot;/images/point_light.jpg&quot; /&gt;
+        &lt;img src=&quot;/images/box_light.jpg&quot; /&gt;
+    &lt;/div&gt;
+&lt;/center&gt;
+
+&lt;p&gt;I did explore different phase functions however, using the &lt;strong&gt;&lt;a href=&quot;https://www.astro.umd.edu/~jph/HG_note.pdf&quot;&gt;Henyey-Greenstein&lt;/a&gt;&lt;/strong&gt; phase function as the default on the box light, with a tweakable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;g&lt;/code&gt;-value (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;g = 0&lt;/code&gt;, isotropic scattering above).&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note the noisy edges of the directional light in the right picture above, as well as at the ends of the box light itself.&lt;/em&gt;&lt;/p&gt;
+
 &lt;h2 id=&quot;reflections&quot;&gt;Reflections&lt;/h2&gt;
+
+&lt;p&gt;All in all I am satisfied in reaching my primary goal, which was to implement a volumetric directional light and to try and optimize it best I could.&lt;/p&gt;
+
+&lt;p&gt;I would not underestimate the time needed to create the other light types from scratch again though. 
+I found myself working on the basic lighting of the box light and spot light more than I expected, and if given the choice again I would have focused on optimizing
+for the directional light prior to working with new light types.&lt;/p&gt;
+
+&lt;p&gt;I ventured to try out all the steps of the optimization outlined by &lt;strong&gt;&lt;a href=&quot;https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen&quot;&gt;Glatzel&lt;/a&gt;&lt;/strong&gt;,
+including “nearest depth up-sampling” (see slide 38), to further make up for the fact that we are rendering to a half-resolution target. I could not make this work to satisfaction, but would be greatly beneficial
+in making the volumetric directional light look good I believe.&lt;/p&gt;
 
 &lt;script src=&quot;/assets/js/jquery.photoset-grid.js&quot;&gt;&lt;/script&gt;
 
