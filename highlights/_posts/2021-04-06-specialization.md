@@ -209,7 +209,7 @@ If the `colorFactor` variable is not weighted by an appropriate measure (such as
 
 ## Honorable Mentions
 
-Having a fairly quick initial setup, I tried accomplishing my secondary goal prior to optimizing. Point lights were implemented but had utilised no shadowmapping, so I started with ray marching from the point lights and created two other light types from scratch hoping I would have the time realize shadow mapping for all of them.
+Having a fairly quick initial setup, I tried accomplishing my secondary goal prior to optimizing. Point lights were implemented but had utilized no shadowmapping, so I started with ray marching from the point lights and created two other light types from scratch hoping I would have the time to realize shadow mapping for all of them.
 
 The other two light types were spot lights and what I called "box" lights. Box because they differ from the usual rectangle or area lights in that they have no angular falloff at the edges, essentially working as localized directional lights.
 
@@ -236,7 +236,7 @@ I found myself working on the basic lighting of the box light and spot light mor
 for the directional light prior to working with new light types. 
 
 I ventured to try out all the steps of the optimization outlined by **<a href="https://www.slideshare.net/BenjaminGlatzel/volumetric-lighting-for-many-lights-in-lords-of-the-fallen">Glatzel</a>**,
-including "nearest depth up-sampling" (see slide 38), to further make up for the fact that we are rendering to a half-resolution target. I could not make this work to satisfaction, but would be greatly beneficial
+including "nearest depth up-sampling" (see slide 38), to further make up for the fact that we are rendering to a half-resolution target. I could not make this work to satisfaction, but it would be greatly beneficial
 in making the volumetric directional light look good I believe.
 
 <script src="/assets/js/jquery.photoset-grid.js"></script>
