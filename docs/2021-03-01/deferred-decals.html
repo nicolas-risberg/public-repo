@@ -5,6 +5,12 @@
 <!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
 
 <head>
+    <style>
+        .special-image {
+            border-radius: 50%;
+        }
+    </style>
+
     <meta charset="utf-8">
 <title>Deferred Decals &#8211; Nicolas Risberg Online Portfolio</title>
 <meta name="description" content="Online Portfolio showcasing schoolwork done at The Game Assembly in Stockholm, 2021 as well as my CV and other cool things.">
@@ -49,15 +55,11 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 
+    <!--HEADER IMAGE-->
+    <center>
+        <img class="special-image" src="/images/profile_pic.jpg" width="10%">
+    </center>
 
-    <!-- HEADER IMAGE -->
-     <!--<center>
-        <span class="main-header-image">
-            <a href="/"><img src="/images/header/clean-and-simple-header.jpg"></a>
-        </span>
-    </center>--> 
-
-    <br>
     <center>
         <span class="main-header-image">
             <h1 style="font-weight:100; font-kerning:normal"><a href="/">Nicolas Risberg Online Portfolio</a></h1>
@@ -75,16 +77,12 @@
     <center>
     <nav class="header-nav">
         <ul class="navigation-bar">
-            <!--<li><a href="/">HOME</a></li>-->
             <li><a href="/highlights/">HIGHLIGHTS</a></li>
             <li><a href="/projects/">GAME PROJECTS</a></li>
             <!--<a href="https://nicolas-risberg.github.io/images/CV_Cover_Letter_Nicolas_Risberg_2021.pdf" target="_blank">CV</a>-->
             <li><a href="/cv/">CV</a></li>
-            <!--<li><a href="/archives/">ARCHIVE</a></li>-->
             <li><a href="/tags/">TAGS</a></li>
             <li><a href="/about/">ABOUT</a></li>
-            <!--<li><a href="/feed.xml">RSS</a></li>-->
-            <!--<li><a href="https://www.github.com/benradford/Slate-and-Simple-Jekyll-Theme">GET THEME</a></li>-->
         </ul>
     </nav>
 </center>
@@ -114,7 +112,11 @@
 
             <!-- POST CONTENT -->
             <div class="entry-content">
-                <h2 id="introduction">Introduction</h2>
+                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>window.jQuery || document.write('<script src="_/js/libs/jquery-1.9.1.min.js"><\/script>')</script>
+
+<h2 id="introduction">Introduction</h2>
 
 <p>I implemented deferred decals for our seventh game project at The Game Assembly.
 The decals were exported from Unity and rendered to the GBuffer in three separate passes depending on which textures to use; albedo, normal or “material”.</p>
@@ -124,6 +126,37 @@ The decals were exported from Unity and rendered to the GBuffer in three separat
 <h2 id="implementation">Implementation</h2>
 
 <p>I chose to use a cube volume for projection due to its simplicity, held by the renderer and scaled by the game object transform component.</p>
+
+<center>
+    <div class="photoset-grid-custom" data-layout="3">
+        <img src="/images/decal_albedo.jpg" />
+        <img src="/images/decal_normal.jpg" />
+        <img src="/images/decal_material.jpg" />
+    </div>
+</center>
+
+<script src="/assets/js/jquery.photoset-grid.js"></script>
+
+<script type="text/javascript">
+    $('.photoset-grid-custom').photosetGrid({
+    // Set the gutter between columns and rows
+    gutter: '5px',
+  
+    // Wrap the images in links
+    highresLinks: true,
+  
+    // Asign a common rel attribute
+    rel: 'print-gallery',
+
+    onInit: function(){},
+    
+    onComplete: function(){
+        // Show the grid after it renders
+        $('.photoset-grid-custom').attr('style', '');
+    }
+});
+</script>
+
 
             </div>
 

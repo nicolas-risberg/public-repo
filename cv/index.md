@@ -1,6 +1,6 @@
 ---
 layout: post
-title: CV & Cover Letter
+title: CV
 pagination:
   enabled: true
 ---
