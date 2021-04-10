@@ -97,7 +97,7 @@
         <article class="hentry">
 
             <div class="featured-image">
-            <img src="" style="width:100%">
+            <img src="/images/decal.gif" style="width:100%">
             </div>
 
             <!-- MAIN -->
@@ -119,19 +119,129 @@
 <h2 id="introduction">Introduction</h2>
 
 <p>I implemented deferred decals for our seventh game project at The Game Assembly.
-The decals were exported from Unity and rendered to the GBuffer in three separate passes depending on which textures to use; albedo, normal or “material”.</p>
+The decals were exported from Unity and rendered to the G-Buffer in three separate passes depending on which textures to use; albedo, normal or “material” (containing metalness, roughness, emissive and detail normal strength).</p>
 
-<p>Using three separate passes, there is no need to copy the GBuffer and you have higher flexibility regarding which textures to use and how to alpha blend the results.</p>
+<p>Using three separate passes, there is no need to copy the G-Buffer and you have higher flexibility regarding which textures to use and how to alpha blend the results.
+I chose to use a cube volume for projection due to its simplicity, held by the renderer and scaled by the game object transform component.</p>
 
 <h2 id="implementation">Implementation</h2>
 
-<p>I chose to use a cube volume for projection due to its simplicity, held by the renderer and scaled by the game object transform component.</p>
+<p>A decal factory receives data from the Unity export, including the filepath to a directory of textures to be used by the decal, and three flags representing which render passes to run for this specific decal. 
+The albedo, material and normal (also containing ambient occlusion information) textures are requested from a material handler utility, being set to <code class="language-plaintext highlighter-rouge">nullptr</code> should they not exist rather than receiving a pointer to an error texture. 
+Should any of the textures be <code class="language-plaintext highlighter-rouge">nullptr</code>, their respective flags are set to false.</p>
+
+<p>The decal render pass is run right after rendering the G-Buffer. If the three decal render passes were not separated, we would set the whole G-Buffer as our render target.
+If we then want to render different sets of textures for every decal, we would need to copy the whole G-Buffer and sample it in the shader so as to not overwrite the normals when we aren’t interested in the normals of the decal, for example. 
+The normal texture is still bound as a render target, and if we do not discard the run of the entire fragment shader (which we might not want) we are going to overwrite the G-Buffer normals.</p>
+
+<p><em>In the below GIFs there is no copying of the G-Buffer, and there is no writing to the material target (left) or normals target (right), even though they are still bound as render targets.</em></p>
+
+<center>
+    <div class="photoset-grid-custom" data-layout="2">
+        <img src="/images/missing_material.gif" />
+        <img src="/images/missing_normals.gif" />
+    </div>
+</center>
+
+<p>That said, if every decal we render renders information to the same targets, this is not an issue, and it becomes cheaper to make only one draw call.</p>
+
+<p>Since we wanted the freedom to render decals to any subset of the G-Buffer, I decided to render decals in different passes to avoid copying the G-Buffer. With this setup, different render targets can be set for every shader and you are guaranteed to not overwrite.</p>
+
+<details>
+  <summary><strong>View Code</strong></summary>
+
+  <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">CDecalRenderer</span><span class="o">::</span><span class="n">Render</span><span class="p">(...)</span>
+<span class="p">{</span>
+    <span class="c1">// ... Bind state common to all decals</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="n">gameObject</span> <span class="o">:</span> <span class="n">someDecalGameObjects</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">CDecalComponent</span><span class="o">*</span> <span class="n">decalComponent</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">-&gt;</span><span class="n">GetComponent</span><span class="o">&lt;</span><span class="n">CDecalComponent</span><span class="o">&gt;</span><span class="p">();</span>
+
+		<span class="n">CDecal</span><span class="o">*</span> <span class="n">decal</span> <span class="o">=</span> <span class="n">decalComponent</span><span class="o">-&gt;</span><span class="n">GetMyDecal</span><span class="p">();</span>
+		<span class="k">const</span> <span class="n">CDecal</span><span class="o">::</span><span class="n">SDecalData</span><span class="o">&amp;</span> <span class="n">decalData</span> <span class="o">=</span> <span class="n">decal</span><span class="o">-&gt;</span><span class="n">GetDecalData</span><span class="p">();</span>
+
+		<span class="n">myObjectBufferData</span><span class="p">.</span><span class="n">myToWorld</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">-&gt;</span><span class="n">myTransform</span><span class="o">-&gt;</span><span class="n">GetWorldMatrix</span><span class="p">();</span>
+		<span class="n">myObjectBufferData</span><span class="p">.</span><span class="n">myToObjectSpace</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">-&gt;</span><span class="n">myTransform</span><span class="o">-&gt;</span><span class="n">GetWorldMatrix</span><span class="p">().</span><span class="n">Invert</span><span class="p">();</span>
+		<span class="n">BindBuffer</span><span class="p">(</span><span class="n">myObjectBuffer</span><span class="p">,</span> <span class="n">myObjectBufferData</span><span class="p">,</span> <span class="s">"Object Buffer"</span><span class="p">);</span>
+
+		<span class="n">myContext</span><span class="o">-&gt;</span><span class="n">VSSetConstantBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">myObjectBuffer</span><span class="p">);</span>
+		<span class="n">myContext</span><span class="o">-&gt;</span><span class="n">PSSetConstantBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">myObjectBuffer</span><span class="p">);</span>
+		<span class="n">myContext</span><span class="o">-&gt;</span><span class="n">PSSetShaderResources</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">decalData</span><span class="p">.</span><span class="n">myMaterial</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">decalData</span><span class="p">.</span><span class="n">myShouldRenderAlbedo</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">myContext</span><span class="o">-&gt;</span><span class="n">PSSetShader</span><span class="p">(</span><span class="n">myAlbedoPixelShader</span><span class="p">,</span> <span class="nb">nullptr</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+                    <span class="n">myContext</span><span class="o">-&gt;</span><span class="n">DrawIndexed</span><span class="p">(</span><span class="n">myNumberOfIndices</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+                    <span class="n">CRenderManager</span><span class="o">::</span><span class="n">myNumberOfDrawCallsThisFrame</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+        
+                <span class="k">if</span> <span class="p">(</span><span class="n">decalData</span><span class="p">.</span><span class="n">myShouldRenderMaterial</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">myContext</span><span class="o">-&gt;</span><span class="n">PSSetShader</span><span class="p">(</span><span class="n">myMaterialPixelShader</span><span class="p">,</span> <span class="nb">nullptr</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+                    <span class="n">myContext</span><span class="o">-&gt;</span><span class="n">DrawIndexed</span><span class="p">(</span><span class="n">myNumberOfIndices</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+                    <span class="n">CRenderManager</span><span class="o">::</span><span class="n">myNumberOfDrawCallsThisFrame</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">decalData</span><span class="p">.</span><span class="n">myShouldRenderNormals</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">myContext</span><span class="o">-&gt;</span><span class="n">PSSetShader</span><span class="p">(</span><span class="n">myNormalPixelShader</span><span class="p">,</span> <span class="nb">nullptr</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+                    <span class="n">myContext</span><span class="o">-&gt;</span><span class="n">DrawIndexed</span><span class="p">(</span><span class="n">myNumberOfIndices</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+                    <span class="n">CRenderManager</span><span class="o">::</span><span class="n">myNumberOfDrawCallsThisFrame</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+
+</details>
+
+<p>Then comes the issue of alpha blending. Setting up alpha blending between one source and one destination is simple, but as our material target of the G-Buffer (which is <em>not</em> identical to the material texture of the decal) contains metalness, roughness, emissive and ambient occlusion, one has to be sacrificed as the alpha blending channel.</p>
+
+<p>In the current implementation, I chose to sacrifice ambient occlusion on the decals and to sample the alpha level from the albedo texture. This means that even though we don’t render the decal to the albedo target, an albedo shader resource must still be bound. 
+For the normals, the fourth component is unoccupied (since we moved the ambient occlusion from the normal texture to the material target), and also samples from the albedo shader resource.
+One could imagine having the graphical artists work the transparency into the material and normal textures for decals, but I judged this solution as simpler for us.</p>
+
+<details>
+  <summary><strong>View Code</strong></summary>
+
+  <div class="language-hlsl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Decal_MaterialPixelShader.hlsl</span>
+<span class="cp">#include "DecalShaderStructs.hlsli"
+</span>
+<span class="kt">float4</span> <span class="nf">main</span><span class="p">(</span><span class="n">VertexToPixel</span> <span class="n">input</span><span class="p">)</span> <span class="o">:</span> <span class="n">SV_TARGET3</span>
+<span class="p">{</span>
+    <span class="kt">float3</span> <span class="n">clipSpace</span> <span class="o">=</span> <span class="n">input</span><span class="p">.</span><span class="n">myClipSpacePosition</span><span class="p">;</span>
+    <span class="n">clipSpace</span><span class="p">.</span><span class="n">y</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="kt">float2</span> <span class="n">screenSpaceUV</span> <span class="o">=</span> <span class="p">(</span><span class="n">clipSpace</span><span class="p">.</span><span class="n">xy</span> <span class="o">/</span> <span class="n">clipSpace</span><span class="p">.</span><span class="n">z</span><span class="p">)</span> <span class="o">*</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span> <span class="o">+</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span><span class="p">;</span>
+    
+    <span class="n">float</span> <span class="n">z</span> <span class="o">=</span> <span class="n">depthTexture</span><span class="p">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">defaultSampler</span><span class="p">,</span> <span class="n">screenSpaceUV</span><span class="p">).</span><span class="n">r</span><span class="p">;</span>
+    <span class="n">float</span> <span class="n">x</span> <span class="o">=</span> <span class="n">screenSpaceUV</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">float</span> <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">screenSpaceUV</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">float4</span> <span class="n">projectedPos</span> <span class="o">=</span> <span class="kt">float4</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">);</span>
+    <span class="kt">float4</span> <span class="n">viewSpacePos</span> <span class="o">=</span> <span class="nb">mul</span><span class="p">(</span><span class="n">toCameraFromProjection</span><span class="p">,</span> <span class="n">projectedPos</span><span class="p">);</span>
+    <span class="n">viewSpacePos</span> <span class="o">/=</span> <span class="n">viewSpacePos</span><span class="p">.</span><span class="n">w</span><span class="p">;</span>
+    <span class="kt">float4</span> <span class="n">worldPosFromDepth</span> <span class="o">=</span> <span class="nb">mul</span><span class="p">(</span><span class="n">toWorldFromCamera</span><span class="p">,</span> <span class="n">viewSpacePos</span><span class="p">);</span>
+    
+    <span class="kt">float4</span> <span class="n">objectPosition</span> <span class="o">=</span> <span class="nb">mul</span><span class="p">(</span><span class="n">toObjectSpace</span><span class="p">,</span> <span class="n">worldPosFromDepth</span><span class="p">);</span>
+    <span class="nb">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">objectPosition</span><span class="p">.</span><span class="n">xyz</span><span class="p">));</span>
+    <span class="kt">float2</span> <span class="n">decalUV</span> <span class="o">=</span> <span class="n">objectPosition</span><span class="p">.</span><span class="n">xy</span> <span class="o">+</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span><span class="p">;</span>
+    <span class="n">decalUV</span><span class="p">.</span><span class="n">y</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+
+    <span class="kt">float3</span> <span class="n">material</span> <span class="o">=</span> <span class="n">materialTexture</span><span class="p">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">defaultSampler</span><span class="p">,</span> <span class="n">decalUV</span><span class="p">).</span><span class="n">rgb</span><span class="p">;</span>
+    <span class="n">float</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">albedoTexture</span><span class="p">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">defaultSampler</span><span class="p">,</span> <span class="n">decalUV</span><span class="p">).</span><span class="n">a</span><span class="p">;</span>
+	
+    <span class="k">return</span> <span class="kt">float4</span><span class="p">(</span><span class="n">material</span><span class="p">.</span><span class="n">rgb</span><span class="p">,</span> <span class="n">alpha</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+
+</details>
+
+<p>The three screen shots below depict a decal being rendered to different parts of the G-Buffer. Left is only albedo, using the material and normal information already stored in the G-Buffer, middle is only material, and right is only normals.</p>
 
 <center>
     <div class="photoset-grid-custom" data-layout="3">
         <img src="/images/decal_albedo.jpg" />
-        <img src="/images/decal_normal.jpg" />
         <img src="/images/decal_material.jpg" />
+        <img src="/images/decal_normal.jpg" />
     </div>
 </center>
 

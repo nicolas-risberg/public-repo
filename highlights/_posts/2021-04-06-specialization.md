@@ -32,8 +32,6 @@ An upper limit on the ray marched distance is set using this difference prior to
 {::options parse_block_html="true" /}
 <details><summary markdown="span">**View Code**</summary>
 
-
-
 ```hlsl
 PixelOutput main(VertexToPixel input)
 {
