@@ -28,7 +28,8 @@ The decal render pass is run right after rendering the G-Buffer. If the three de
 If we then want to render different sets of textures for every decal, we would need to copy the whole G-Buffer and sample it in the shader so as to not overwrite the normals when we aren't interested in the normals of the decal, for example. 
 The normal texture is still bound as a render target, and if we do not discard the run of the entire fragment shader (which we might not want) we are going to overwrite the G-Buffer normals.
 
-*In the below GIFs there is no copying of the G-Buffer, and there is no writing to the material target (left) or normals target (right), even though they are still bound as render targets.*
+In the below GIFs there is no copying of the G-Buffer. Decal albedo data is being written in both cases, but there is no decal data being written to the material target (left) or normals target (right). 
+These are still bound as render targets though, meaning they are overwritten by default values since there is no useful data to write.
 
 <center>
     <div class="photoset-grid-custom" data-layout="2">
