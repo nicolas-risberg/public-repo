@@ -4,6 +4,15 @@
 [if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]
 [if gt IE 8]><!<html class="no-js" lang="en"><![endif]-->
 
+<style>
+    div.fixed {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        border: 3px solid #73AD21;
+    }
+</style>
+
 <head>
     <style>
         .special-image {
@@ -31,6 +40,13 @@
     <!--NAVIGATION-->
     <br>
     {% include navigation.html %}
+
+    <!--{% if window.scrollY <= 0 %}
+    <div class="fixed">
+        {% include navigation.html %}
+    </div>
+    {% else %}
+    {% endif %}-->
 </head>
 <!--BODY-->
 <body id="post-index">

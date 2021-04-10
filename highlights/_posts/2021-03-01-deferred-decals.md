@@ -96,7 +96,7 @@ Then comes the issue of alpha blending. Setting up alpha blending between one so
 
 In the current implementation, I chose to sacrifice ambient occlusion on the decals and to sample the alpha level from the albedo texture. This means that even though we don't render the decal to the albedo target, an albedo shader resource must still be bound. 
 For the normals, the fourth component is unoccupied (since we moved the ambient occlusion from the normal texture to the material target), and also samples from the albedo shader resource.
-One could imagine having the graphical artists work the transparency into the material and normal textures for decals, but I judged this solution as simpler for us. 
+The graphical artists could work the transparency into the material and normal textures for decals, but I found this solution better suited for our needs. 
 
 {::options parse_block_html="true" /}
 <details><summary markdown="span">**View Code**</summary>

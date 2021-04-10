@@ -83,6 +83,8 @@
             <li><a href="/cv/">CV</a></li>
             <li><a href="/tags/">TAGS</a></li>
             <li><a href="/about/">ABOUT</a></li>
+            <li><a href="https://github.com/nicolas-risberg"><img src="/images/GitHub-Mark-Light-32px.png" width="32" height="32"></a></li>
+            <li><a href="https://www.linkedin.com/in/nicolas-risberg/"><img src="/images/LI-In-Bug.png" width="38" height="32"></a></li>
         </ul>
     </nav>
 </center>
@@ -112,7 +114,50 @@
 
             <!-- POST CONTENT -->
             <div class="entry-content">
-                
+                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>window.jQuery || document.write('<script src="_/js/libs/jquery-1.9.1.min.js"><\/script>')</script>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>For our seventh game project at The Game Assembly, I made a VFX Editor using <strong><a href="https://github.com/ocornut/imgui">ImGui</a></strong> based on the VFX and Particle Systems I designed for the project prior.
+With ImGui it was easy and fast to get a graphical user interface running and rendering in our custom engine, and features like the color picker and curve editing were essential in the workflow designed in concert with the graphical artists.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>The VFX Editor works on a component called <code class="language-plaintext highlighter-rouge">VFXSystemComponent</code>. This component holds a list of data structures called <code class="language-plaintext highlighter-rouge">VFXEffect</code>s. 
+Each effect holds data associated with any number of what we call VFX meshes and particle emitters, where a VFX mesh is simply some geometry using shaders to scroll textures across it. These meshes and particle emitters are rendered using alpha blending and with depth writing turned off in a late render pass.
+The system is defined this way to allow a single game object with this component to store several collections of meshes and particle emitters in different configurations, and to activate any one of these collections as an “effect” at any time.</p>
+
+<details>
+  <summary><strong>View Code</strong></summary>
+
+  <div class="language-hlsl highlighter-rouge"><div class="highlight"><pre class="highlight"><code></code></pre></div>  </div>
+
+</details>
+
+<script src="/assets/js/jquery.photoset-grid.js"></script>
+
+<script type="text/javascript">
+    $('.photoset-grid-custom').photosetGrid({
+    // Set the gutter between columns and rows
+    gutter: '5px',
+  
+    // Wrap the images in links
+    highresLinks: true,
+  
+    // Asign a common rel attribute
+    rel: 'print-gallery',
+
+    onInit: function(){},
+    
+    onComplete: function(){
+        // Show the grid after it renders
+        $('.photoset-grid-custom').attr('style', '');
+    }
+});
+</script>
+
 
             </div>
 

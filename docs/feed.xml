@@ -5,8 +5,8 @@
     <description>Online Portfolio showcasing schoolwork done at The Game Assembly in Stockholm, 2021 as well as my CV and other cool things.</description>
     <link>/</link>
     <atom:link href="nathanrooy.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 10 Apr 2021 16:13:05 +0200</pubDate>
-    <lastBuildDate>Sat, 10 Apr 2021 16:13:05 +0200</lastBuildDate>
+    <pubDate>Sat, 10 Apr 2021 19:27:26 +0200</pubDate>
+    <lastBuildDate>Sat, 10 Apr 2021 19:27:26 +0200</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
       
     
@@ -304,7 +304,50 @@ in making the volumetric directional light look good I believe.&lt;/p&gt;
     
     <item>
         <title>VFX Editor using ImGui</title>
-        <description>
+        <description>&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;window.jQuery || document.write(&apos;&lt;script src=&quot;_/js/libs/jquery-1.9.1.min.js&quot;&gt;&lt;\/script&gt;&apos;)&lt;/script&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;For our seventh game project at The Game Assembly, I made a VFX Editor using &lt;strong&gt;&lt;a href=&quot;https://github.com/ocornut/imgui&quot;&gt;ImGui&lt;/a&gt;&lt;/strong&gt; based on the VFX and Particle Systems I designed for the project prior.
+With ImGui it was easy and fast to get a graphical user interface running and rendering in our custom engine, and features like the color picker and curve editing were essential in the workflow designed in concert with the graphical artists.&lt;/p&gt;
+
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+
+&lt;p&gt;The VFX Editor works on a component called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VFXSystemComponent&lt;/code&gt;. This component holds a list of data structures called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VFXEffect&lt;/code&gt;s. 
+Each effect holds data associated with any number of what we call VFX meshes and particle emitters, where a VFX mesh is simply some geometry using shaders to scroll textures across it. These meshes and particle emitters are rendered using alpha blending and with depth writing turned off in a late render pass.
+The system is defined this way to allow a single game object with this component to store several collections of meshes and particle emitters in different configurations, and to activate any one of these collections as an “effect” at any time.&lt;/p&gt;
+
+&lt;details&gt;
+  &lt;summary&gt;&lt;strong&gt;View Code&lt;/strong&gt;&lt;/summary&gt;
+
+  &lt;div class=&quot;language-hlsl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/details&gt;
+
+&lt;script src=&quot;/assets/js/jquery.photoset-grid.js&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(&apos;.photoset-grid-custom&apos;).photosetGrid({
+    // Set the gutter between columns and rows
+    gutter: &apos;5px&apos;,
+  
+    // Wrap the images in links
+    highresLinks: true,
+  
+    // Asign a common rel attribute
+    rel: &apos;print-gallery&apos;,
+
+    onInit: function(){},
+    
+    onComplete: function(){
+        // Show the grid after it renders
+        $(&apos;.photoset-grid-custom&apos;).attr(&apos;style&apos;, &apos;&apos;);
+    }
+});
+&lt;/script&gt;
+
 </description>
         <pubDate>Tue, 30 Mar 2021 00:00:00 +0200</pubDate>
         
@@ -414,7 +457,7 @@ These are still bound as render targets though, meaning they are overwritten by 
 
 &lt;p&gt;In the current implementation, I chose to sacrifice ambient occlusion on the decals and to sample the alpha level from the albedo texture. This means that even though we don’t render the decal to the albedo target, an albedo shader resource must still be bound. 
 For the normals, the fourth component is unoccupied (since we moved the ambient occlusion from the normal texture to the material target), and also samples from the albedo shader resource.
-One could imagine having the graphical artists work the transparency into the material and normal textures for decals, but I judged this solution as simpler for us.&lt;/p&gt;
+The graphical artists could work the transparency into the material and normal textures for decals, but I found this solution better suited for our needs.&lt;/p&gt;
 
 &lt;details&gt;
   &lt;summary&gt;&lt;strong&gt;View Code&lt;/strong&gt;&lt;/summary&gt;
