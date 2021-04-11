@@ -17,9 +17,9 @@
 <meta name="keywords" content="vfx, imgui, tools">
 
 <!-- MathJax -->
-<!--<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
--->
+
 
 
 
@@ -120,8 +120,11 @@
 
 <h2 id="introduction">Introduction</h2>
 
-<p>For our seventh game project at The Game Assembly, I made a VFX Editor using <strong><a href="https://github.com/ocornut/imgui">ImGui</a></strong> based on the VFX and Particle Systems I designed for the project prior.
-With ImGui it was easy and fast to get a graphical user interface running and rendering in our custom engine, and features like the color picker and curve editing were essential in the workflow designed in concert with the graphical artists.</p>
+<p>For our seventh game project at The Game Assembly, I made a VFX editor using <strong><a href="https://github.com/ocornut/imgui">ImGui</a></strong> based on the VFX and particle systems I designed for the project prior.
+With ImGui it was easy and fast to get a graphical user interface running and rendering in our custom engine, and features like the color picker and curve editing were essential in the workflow designed for the graphical artists.</p>
+
+<p>This editor was made to provide the artists working with VFX a proper pipeline for doing so, as tweaking values in JSON files that they had been doing up to this point was inconvenient at best.
+The systems were still initialized from JSON but did not have to be tweaked inside the files themselves.</p>
 
 <h2 id="implementation">Implementation</h2>
 
@@ -129,12 +132,128 @@ With ImGui it was easy and fast to get a graphical user interface running and re
 Each effect holds data associated with any number of what we call VFX meshes and particle emitters, where a VFX mesh is simply some geometry using shaders to scroll textures across it. These meshes and particle emitters are rendered using alpha blending and with depth writing turned off in a late render pass.
 The system is defined this way to allow a single game object with this component to store several collections of meshes and particle emitters in different configurations, and to activate any one of these collections as an “effect” at any time.</p>
 
+<p>The window class itself holds the data necessary to tweak values in ImGui as well as the data necessary to write to JSON. All data structures have their own, unique <code class="language-plaintext highlighter-rouge">Serialize()</code> methods in order to conserve the specific format used before, rather than generalizing and having to rewrite the JSON import for the <code class="language-plaintext highlighter-rouge">VFXSystemComponent</code>.</p>
+
+<p>The basic logic is very simple. An enum controls which information is shown in the window, and the enum is set by buttons within the window.</p>
+
 <details>
   <summary><strong>View Code</strong></summary>
 
-  <div class="language-hlsl highlighter-rouge"><div class="highlight"><pre class="highlight"><code></code></pre></div>  </div>
+  <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">IronWroughtImGui</span><span class="o">::</span><span class="n">CVFXEditorWindow</span><span class="o">::</span><span class="n">OnInspectorGUI</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">ImGui</span><span class="o">::</span><span class="n">Begin</span><span class="p">(</span><span class="n">Name</span><span class="p">(),</span> <span class="n">Open</span><span class="p">());</span>
+
+	<span class="k">switch</span> <span class="p">(</span><span class="n">myCurrentMenu</span><span class="p">)</span>
+	<span class="p">{</span>
+	<span class="k">case</span> <span class="n">IronWroughtImGui</span><span class="o">::</span><span class="n">EVFXEditorMenu</span><span class="o">::</span><span class="n">MainMenu</span><span class="p">:</span>
+		<span class="n">ShowMainMenu</span><span class="p">();</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="n">IronWroughtImGui</span><span class="o">::</span><span class="n">EVFXEditorMenu</span><span class="o">::</span><span class="n">VFXMeshView</span><span class="p">:</span>
+		<span class="n">ShowVFXMeshWindow</span><span class="p">();</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="n">IronWroughtImGui</span><span class="o">::</span><span class="n">EVFXEditorMenu</span><span class="o">::</span><span class="n">ParticleEmitterView</span><span class="p">:</span>
+		<span class="n">ShowParticleEffectWindow</span><span class="p">();</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="nl">default:</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">ImGui</span><span class="o">::</span><span class="n">End</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
 
 </details>
+
+<p>On pressing save, all data structures currently held by the window are serialized, written to a filepath set by the user, and the singular VFXSystemComponent is reinitialized using the new or modified JSON file.</p>
+
+<center>
+    <div class="photoset-grid-custom" data-layout="1">
+        <img src="/images/vfx_save.gif" />
+    </div>
+</center>
+
+<p>In the main window, VFX systems can be loaded and modified on the highest level. Effects can be added, and for every effect you can add any amount of VFX meshes and particle emitters. These can be offset and rotated about the associated game object, and each have their own delay and duration.
+Any mesh or particle emitter file can be modified by a button press, where the view changes to show the file name and all attributes associated with the selected mesh or emitter. Saving works the same way in this view, but the file name of the selected mesh or emitter can also be changed here.</p>
+
+<center>
+    <div class="photoset-grid-custom" data-layout="1">
+        <img src="/images/vfx_open_separate_files.gif" />
+    </div>
+</center>
+
+<p>For the particle emitter file view, there are tweakable curves for color, size and direction of the particles. These curves are opened in a separate window. For every attribute that can be changed by a curve, there is an \(A\) and a \(B\) value, such as starting color and final color. 
+The curves are defined in the interpolation parameter (\(y\)-axis) over time (\(x\)-axis) coordinate system, meaning if the \(y\)-value at \(x = 0\) is \(0\), the particle starts its lifetime at attribute value \(A\), and if \(y = 1\), the particle starts its lifetime at attribute value \(B\).</p>
+
+<p>In the current version of the editor, the curves are not actually curved, but straight lines going through several points. We had trouble determining how to interpret smooth line segments on the engine side when we first started setup, 
+and so resorted to interpolating between easily definable points instead due to the time constraint.</p>
+
+<details>
+  <summary><strong>View Code</strong></summary>
+
+  <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">float</span> <span class="n">SVFXEffect</span><span class="o">::</span><span class="n">CalculateInterpolator</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Vector2</span><span class="o">&gt;&amp;</span> <span class="n">somePoints</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">t</span><span class="p">)</span> <span class="k">const</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">pointIndex</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">somePoints</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+	
+	<span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">somePoints</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">somePoints</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="n">somePoints</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">x</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">pointIndex</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	
+	<span class="c1">// Nice function inspired by Freya Holmer, inverse lerps from one range and lerps into another</span>
+	<span class="kt">float</span> <span class="n">val</span> <span class="o">=</span> <span class="n">Remap</span><span class="p">(</span><span class="n">somePoints</span><span class="p">[</span><span class="n">pointIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="n">somePoints</span><span class="p">[</span><span class="n">pointIndex</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.0</span><span class="n">f</span><span class="p">,</span> <span class="mf">1.0</span><span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">Lerp</span><span class="p">(</span><span class="n">somePoints</span><span class="p">[</span><span class="n">pointIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">y</span><span class="p">,</span> <span class="n">somePoints</span><span class="p">[</span><span class="n">pointIndex</span><span class="p">].</span><span class="n">y</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">SVFXEffect</span><span class="o">::</span><span class="n">UpdateParticles</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">anIndex</span><span class="p">,</span> <span class="n">CParticleEmitter</span><span class="o">::</span><span class="n">SParticleData</span><span class="o">&amp;</span> <span class="n">particleData</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// ...</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">UINT</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">myParticleVertices</span><span class="p">[</span><span class="n">anIndex</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">float</span> <span class="n">quotient</span> <span class="o">=</span> <span class="n">myParticleVertices</span><span class="p">[</span><span class="n">anIndex</span><span class="p">][</span><span class="n">i</span><span class="p">].</span><span class="n">myLifeTime</span> <span class="o">/</span> <span class="n">particleData</span><span class="p">.</span><span class="n">myParticleLifetime</span><span class="p">;</span>		
+	
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">particleData</span><span class="p">.</span><span class="n">myColorCurve</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+		<span class="p">{</span>
+			<span class="n">myParticleVertices</span><span class="p">[</span><span class="n">anIndex</span><span class="p">][</span><span class="n">i</span><span class="p">].</span><span class="n">myColor</span> <span class="o">=</span> <span class="n">Vector4</span><span class="o">::</span><span class="n">Lerp</span>
+			<span class="p">(</span>
+				<span class="n">particleData</span><span class="p">.</span><span class="n">myParticleStartColor</span><span class="p">,</span>
+				<span class="n">particleData</span><span class="p">.</span><span class="n">myParticleEndColor</span><span class="p">,</span>
+				<span class="n">CalculateInterpolator</span><span class="p">(</span><span class="n">particleData</span><span class="p">.</span><span class="n">myColorCurve</span><span class="p">,</span> <span class="n">quotient</span><span class="p">)</span>
+			<span class="p">);</span>
+		<span class="p">}</span>
+
+		<span class="c1">// ... Continue updating particles</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+
+</details>
+
+<p>When a curve is saved, the system is reinitialized.</p>
+
+<center>
+    <div class="photoset-grid-custom" data-layout="1">
+        <img src="/images/vfx_size_curve.gif" />
+    </div>
+</center>
+
+<h2 id="improvements">Improvements</h2>
+
+<p>Considering the editor was made under time constraints, there are a lot of improvements that could be made, some of which are listed below.</p>
+
+<ul>
+  <li>Velocity and opacity curves for particle emitter</li>
+  <li>Scroll speed, opacity and size curves for vfx meshes</li>
+  <li>Full PBR support for textures scrolled over vfx mesh, and particle textures</li>
+  <li>Randomizable rotation for particle textures and meshes</li>
+  <li>Easier removal and adding of systems, effects, vfx meshes and particle emitters</li>
+</ul>
+
+<p>Hopefully there will be time to realize these during our final exam project.</p>
 
 <script src="/assets/js/jquery.photoset-grid.js"></script>
 
