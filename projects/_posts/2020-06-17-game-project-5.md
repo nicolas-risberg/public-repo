@@ -20,7 +20,7 @@ date-string: APRIL 06, 2021
 
 ## My Contributions
 
-* **Gameplay** (Movable Blocks, Ice Weapon Logic, Fire Weapon Logic, Feedback)
+* **Gameplay** (Movable Blocks, Camera System, Ice Weapon Logic, Fire Weapon Logic, Feedback)
 * **Graphics** (Particle System Architecture, Point Light Logic)
 * **UI**       (Dialogue System used for Hint Signs, NPC Dialogue and Inventory Lore Text)
 * **Audio**    (Audio Manager and Logic)

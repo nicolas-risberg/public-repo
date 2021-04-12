@@ -11,6 +11,8 @@ date-string: APRIL 06, 2021
 	<iframe width="720" height="405" src="https://www.youtube.com/embed/5VBBRPEn-Tw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </center>
 
+**<a href="https://nicolas-risberg.github.io/games/Bloodloss_Installer.exe" download="Bloodloss_Installer.exe">Download Link</a>**
+
 ## Specifications
 
 * **Genre**:    3D Action RPG
@@ -22,6 +24,7 @@ date-string: APRIL 06, 2021
 
 * **Gameplay** (Ability Architecture, Navigation Mesh)
 * **Graphics** (Rendering Architecture, Sprite and Text Renderers, VFX Architecture, Outline Depth Stencil Pass)
-* **UI**	   (UI Architecture, Animated Orbs for Health and Resource, Health and Experience Bars, Dialogue System, Floating Damage Numbers, Popup Text Service)
+* **UI**	   (UI Architecture, Animated Resource Orbs, Health and Experience Bars, Dialogue System, Floating Damage Numbers, Popup Text Service)
 * **Audio**    (FMod Wrapper, Audio Manager and Logic)
 * **Voice Over, Music**
+
