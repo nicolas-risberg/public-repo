@@ -1,0 +1,25 @@
+
+.Box{
+    float: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+}
+
+.LeftBox {
+    width: 47%;
+    float: left;
+    text-align: right;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding:1%;
+}
+
+.RightBox {
+    width: 47%;
+    float: right;
+    text-align: left;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 1%;
+}

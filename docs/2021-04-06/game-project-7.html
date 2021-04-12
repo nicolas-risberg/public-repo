@@ -81,6 +81,7 @@
         <ul class="navigation-bar">
             <li><a href="/highlights/">HIGHLIGHTS</a></li>
             <li><a href="/projects/">GAME PROJECTS</a></li>
+            <li><a href="/softblob/">SOFTBLOB</a></li>
             <li><a href="/cv/">CV</a></li>
             <li><a href="/tags/">TAGS</a></li>
             <li><a href="/about/">ABOUT</a></li>
@@ -100,7 +101,7 @@
         <article class="hentry">
 
             <!--<div class="featured-image">
-                <img src="" style="width:100%">
+                <img src="/images/project-7.gif" style="width:100%">
             </div>-->
 
             <!-- MAIN -->
@@ -116,7 +117,9 @@
             <!-- POST CONTENT -->
             <div class="entry-content">
                 <center>
-	<iframe width="720" height="405" src="https://www.youtube.com/embed/5VBBRPEn-Tw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+    <div class="photoset-grid-custom" data-layout="1">
+        <img src="/images/project-7.gif" />
+    </div>
 </center>
 
 <h2 id="specifications">Specifications</h2>
@@ -131,11 +134,119 @@
 <h2 id="my-contributions">My Contributions</h2>
 
 <ul>
-  <li><strong>Graphics</strong> (HDR, Volumetric Lighting, Material Pipeline, Deferred Decals, VFX Editor, Vertex Painting)</li>
-  <li><strong>UI</strong>       (Animated sprites, Extended Architecture)</li>
-  <li><strong>Audio</strong>    (Voice Line Event and Category Nodes, SFX Category Nodes)</li>
+  <li><strong>Graphics</strong> (<a href="#hdr">HDR</a>, <a href="#volumetric_lighting">Volumetric Lighting</a>, <a href="#material">Material Pipeline</a>, <a href="#deferred_decals">Deferred Decals</a>, <a href="#vfx_editor">VFX Editor</a>, <a href="#vertex_paint">Vertex Painting</a>)</li>
+  <li><strong>UI</strong>       (<a href="#animated_sprites">Animated sprites</a>, <a href="#ui_architecture">Extended Architecture</a>)</li>
+  <li><strong>Audio</strong>    (<a href="#voice_line_event">Voice Line Event and Category Nodes</a>)</li>
   <li><strong>Voice Over</strong></li>
 </ul>
+
+<h2 id="details">Details</h2>
+<h4 id="hdr"><a id="hdr">HDR</a></h4>
+<p>Starting on project 7 we moved to a deferred rendering pipeline instead of regular forward rendering. I took the chance to implement HDR lighting at the same time, using the filmic tonmapping equation of <strong><a href="https://www.gdcvault.com/play/1012351/Uncharted-2-HDR">Uncharted 2</a></strong>.
+This vastly enhanced the quality of our emissive lights and improved our control over the lighting over all.</p>
+
+<h4 id="volumetric-lighting"><a id="volumetric_lighting">Volumetric Lighting</a></h4>
+<p>Please see the <strong><a href="https://nicolas-risberg.github.io/2021-04-06/specialization.html">post</a></strong> I made about my specialization project at The Game Assembly.</p>
+
+<h4 id="material-pipeline"><a id="material">Material Pipeline</a></h4>
+<p>For project 7, it was important that we could have several sets of materials for any model. I worked closely together with the graphical artists to develop a system which takes care of all material texture memory, using reference counting as well as applying error textures where applicable. 
+Material names where applied in Maya and subsequently detected during import of the FBX file. The Material Handler used a single material name to load the relevant textures. We made use of a material suffix to detect which models were to be rendered with alpha blending at a later pass. 
+This Material Handler was also used to handle decal textures and materials used for vertex painting.</p>
+
+<h4 id="deferred-decals"><a id="deferred_decals">Deferred Decals</a></h4>
+<p>Please see the <strong><a href="https://nicolas-risberg.github.io/2021-03-01/deferred-decals.html">post</a></strong> I made about deferred decals in the highlights.</p>
+
+<h4 id="vfx-editor"><a id="vfx_editor">VFX Editor</a></h4>
+<p>Please see the <strong><a href="https://nicolas-risberg.github.io/2021-03-30/vfx-editor.html">post</a></strong> I made about deferred decals in the highlights.</p>
+
+<h4 id="vertex-painting"><a id="vertex_paint">Vertex Painting</a></h4>
+<p>I worked with <strong><a href="http://axelsavage.com">Axel Savage</a></strong> on implementing vertex painting from Unity. On the Unity side we used **<a href="https://unity3d.com/unity/features/worldbuilding/polybrush">Polybrush</a> to paint data on the meshes, and the per-vertex data was
+exported to our engine. The order of indices in the index buffer turned out to not be the same when the data came from Unity, so we resorted to making a hash function for the vertex positions in order to correctly map position to color using the order we loaded from the FBX file.</p>
+
+<p>In the pixel shader, all values associated with the PBR materials were interpolated using the color values as weights.</p>
+
+<p><a href="https://gyazo.com/4c0c6e0e89065a502a6cc50436efc932"><img src="https://i.gyazo.com/4c0c6e0e89065a502a6cc50436efc932.gif" alt="Image from Gyazo" /></a></p>
+
+<h4 id="animated-sprites"><a id="animated_sprites">Animated Sprites</a></h4>
+<p>I extended the sprite rendering I developed in project 6 to support spritesheet animations, breathing life into the crosshair especially. Animations were relatively easy to define in the json document already containing the sprite information, and the logic was general enough to make
+simple function calls like <code class="language-plaintext highlighter-rouge">mySprite-&gt;PlayAnimation(anAnimationIndex, doRepeat, doReverse);</code> behave as expected. Animations were given support for transitioning to different animations depending on whether they played in reverse or not. They could also be given a rotational speed
+about the \(z\)-axis, as seen in <strong><a href="https://nicolas-risberg.github.io/images/project-7.gif">this gif</a></strong>.</p>
+
+<p>The animation logic consisted of counting up the index of a collection of all relevant UV-coordinates, all laid out in sequence. What defines an animation is basically its offset from the beginning of the collection and its total number of frames.</p>
+
+<details>
+  <summary><strong>View Code</strong></summary>
+
+  <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">...</span><span class="w">
+</span><span class="nl">"Animations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="nl">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shoot"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"FrameWidth"</span><span class="p">:</span><span class="w"> </span><span class="mf">240.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"FrameHeight"</span><span class="p">:</span><span class="w"> </span><span class="mf">240.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"VerticalStartingPos"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"FrameOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"NumberOfFrames"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"FramesPerSecond"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"RotationSpeedPerSecond"</span><span class="p">:</span><span class="w"> </span><span class="mf">720.0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"ShouldLoop"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"TransitionIndex"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"ReverseTransitionIndex"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">CSpriteInstance</span><span class="o">::</span><span class="n">Update</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">myShouldAnimate</span><span class="p">)</span>
+		<span class="k">return</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">myShouldReverseAnimation</span><span class="p">)</span>
+		<span class="k">this</span><span class="o">-&gt;</span><span class="n">Rotate</span><span class="p">(</span><span class="n">myAnimationData</span><span class="p">[</span><span class="n">myCurrentAnimationIndex</span><span class="p">].</span><span class="n">myRotationSpeedInSeconds</span> <span class="o">*</span> <span class="n">CTimer</span><span class="o">::</span><span class="n">Dt</span><span class="p">());</span>
+	<span class="k">else</span> 
+		<span class="k">this</span><span class="o">-&gt;</span><span class="n">Rotate</span><span class="p">(</span><span class="o">-</span><span class="n">myAnimationData</span><span class="p">[</span><span class="n">myCurrentAnimationIndex</span><span class="p">].</span><span class="n">myRotationSpeedInSeconds</span> <span class="o">*</span> <span class="n">CTimer</span><span class="o">::</span><span class="n">Dt</span><span class="p">());</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">myAnimationTimer</span> <span class="o">+=</span> <span class="n">CTimer</span><span class="o">::</span><span class="n">Dt</span><span class="p">())</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mf">1.0</span><span class="n">f</span> <span class="o">/</span> <span class="n">myAnimationData</span><span class="p">[</span><span class="n">myCurrentAnimationIndex</span><span class="p">].</span><span class="n">myFramesPerSecond</span><span class="p">))</span>
+	<span class="p">{</span>
+		<span class="n">myAnimationTimer</span> <span class="o">-=</span> <span class="p">(</span><span class="mf">1.0</span><span class="n">f</span> <span class="o">/</span> <span class="n">myAnimationData</span><span class="p">[</span><span class="n">myCurrentAnimationIndex</span><span class="p">].</span><span class="n">myFramesPerSecond</span><span class="p">);</span> 
+
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">myShouldReverseAnimation</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">myCurrentAnimationFrame</span><span class="o">++</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">myCurrentAnimationFrame</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">myAnimationData</span><span class="p">[</span><span class="n">myCurrentAnimationIndex</span><span class="p">].</span><span class="n">myNumberOfFrames</span> <span class="o">+</span> <span class="n">myAnimationData</span><span class="p">[</span><span class="n">myCurrentAnimationIndex</span><span class="p">].</span><span class="n">myFramesOffset</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+			<span class="p">{</span>
+				<span class="n">myShouldAnimate</span> <span class="o">=</span> <span class="n">myShouldLoopAnimation</span><span class="p">;</span>
+				<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">myShouldAnimate</span><span class="p">)</span>
+				<span class="p">{</span>
+					<span class="n">PlayAnimationUsingInternalData</span><span class="p">(</span><span class="n">myAnimationData</span><span class="p">[</span><span class="n">myCurrentAnimationIndex</span><span class="p">].</span><span class="n">myTransitionToIndex</span><span class="p">);</span>
+					<span class="k">return</span><span class="p">;</span>
+				<span class="p">}</span>
+
+				<span class="n">myCurrentAnimationFrame</span> <span class="o">=</span> <span class="n">myAnimationData</span><span class="p">[</span><span class="n">myCurrentAnimationIndex</span><span class="p">].</span><span class="n">myFramesOffset</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">else</span> 
+		<span class="p">{</span>
+			<span class="c1">// ...</span>
+		<span class="p">}</span>
+
+		<span class="k">this</span><span class="o">-&gt;</span><span class="n">SetUVRect</span><span class="p">(</span><span class="n">myAnimationFrames</span><span class="p">[</span><span class="n">myCurrentAnimationFrame</span><span class="p">]);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+
+</details>
+
+<h4 id="extended-ui-architecture"><a id="ui_architecture">Extended UI Architecture</a></h4>
+<p>The UI architecture was extended to use “widgets” in the main menu. Rather than a state change on a button press, a child canvas of the main canvas is activated, each potentially holding its own buttons and sprites. 
+We added a canvas wide offset to such children to properly set the render order of image elements. We limited ourselves to let the button logic only really apply to the base canvas though, so button presses in the widgets
+were only really relevant to the base canvas. Since we only used this system in the main menu we were not negatively affected by this limitation, but to really make use of widgets we would have to improve it.</p>
+
+<h4 id="voice-line-event-and-sfx-category-nodes"><a id="voice_line_event">Voice Line Event and SFX Category Nodes</a></h4>
+<p>Some of the other team members, especially <strong><a href="http://haqvinbager.github.io">Haqvin Bager</a></strong> built a node editor using <strong><a href="https://github.com/ocornut/imgui">ImGui</a></strong> for this project.
+I contributed to this editor by making nodes that would play sounds, for playing voice lines on event triggers in the levels as well as playing randomized SFX and reactionary voice lines based on certain categories. 
+Categories included <code class="language-plaintext highlighter-rouge">RobotDeath</code>, <code class="language-plaintext highlighter-rouge">PlayerStepAirVent</code> and <code class="language-plaintext highlighter-rouge">ResearcherPickUpExplosivesReaction</code> among others.
+The audio manager would load lists of clips based on each category on start up, and randomize (cycling through the whole list before replaying) when receiving a message from the node editor.</p>
 
             </div>
 
