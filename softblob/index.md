@@ -42,7 +42,7 @@ Please check out their incredible portfolios:
 
 		<div class="LeftBox">
 			<p>
-			Cecilia Bohlin<br>
+			<b><a href="https://www.artstation.com/boll">Cecilia Bohlin</a></b><br>
 			<b><a href="https://alexanderl.artstation.com/">Alexander Livholts</a></b><br>
 			<b><a href="https://www.artstation.com/k_kan">Attasith (Kan) Saysupan</a></b><br>
 			</p>
@@ -84,7 +84,7 @@ Please check out their incredible portfolios:
 		<div class="LeftBox">
 			<p>
 			<b><a href="https://haqvinbager.github.io/">Haqvin Bager</a></b><br>
-			Aki Gonzalez<br>
+			<b><a href="https://aki-gonzalez.github.io/">Aki Gonzalez</a></b><br>
 			Emanuel Niklasson<br>
 			</p>
 		</div>

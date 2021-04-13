@@ -5,8 +5,8 @@
     <description>Online Portfolio showcasing schoolwork done at The Game Assembly in Stockholm, 2021 as well as my CV and other cool things.</description>
     <link>/</link>
     <atom:link href="nathanrooy.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 12 Apr 2021 22:20:34 +0200</pubDate>
-    <lastBuildDate>Mon, 12 Apr 2021 22:20:34 +0200</lastBuildDate>
+    <pubDate>Tue, 13 Apr 2021 02:02:37 +0200</pubDate>
+    <lastBuildDate>Tue, 13 Apr 2021 02:02:37 +0200</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
       
     
@@ -38,7 +38,7 @@
 
 &lt;h2 id=&quot;details&quot;&gt;Details&lt;/h2&gt;
 &lt;h4 id=&quot;hdr&quot;&gt;&lt;a id=&quot;hdr&quot;&gt;HDR&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;Starting on project 7 we moved to a deferred rendering pipeline instead of regular forward rendering. I took the chance to implement HDR lighting at the same time, using the filmic tonmapping equation of &lt;strong&gt;&lt;a href=&quot;https://www.gdcvault.com/play/1012351/Uncharted-2-HDR&quot;&gt;Uncharted 2&lt;/a&gt;&lt;/strong&gt;.
+&lt;p&gt;Starting on project 7 we moved to a deferred rendering pipeline instead of forward rendering. I took the chance to implement HDR lighting at the same time, using the filmic tonmapping equation of &lt;strong&gt;&lt;a href=&quot;https://www.gdcvault.com/play/1012351/Uncharted-2-HDR&quot;&gt;Uncharted 2&lt;/a&gt;&lt;/strong&gt;.
 This vastly enhanced the quality of our emissive lights and improved our control over the lighting over all.&lt;/p&gt;
 
 &lt;h4 id=&quot;volumetric-lighting&quot;&gt;&lt;a id=&quot;volumetric_lighting&quot;&gt;Volumetric Lighting&lt;/a&gt;&lt;/h4&gt;
@@ -150,6 +150,8 @@ The audio manager would load lists of clips based on each category on start up, 
           
         
             <category>project</category>
+        
+            <category>deferred rendering</category>
         
             <category>rendering</category>
         
@@ -799,7 +801,9 @@ The graphical artists could work the transparency into the material and normal t
 	&lt;iframe width=&quot;720&quot; height=&quot;405&quot; src=&quot;https://www.youtube.com/embed/5VBBRPEn-Tw&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 &lt;/center&gt;
 
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://drive.google.com/file/d/12V6g5zM4MbOF1qL2JL7-1es_llaWa8Kw/view?usp=sharing&quot; download=&quot;Bloodloss_Installer.exe&quot;&gt;Download Link&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;center&gt;
+  &lt;b&gt;&lt;a href=&quot;https://drive.google.com/file/d/12V6g5zM4MbOF1qL2JL7-1es_llaWa8Kw/view?usp=sharing&quot; download=&quot;Bloodloss_Installer.exe&quot;&gt;Download Link&lt;/a&gt;&lt;/b&gt;
+&lt;/center&gt;
 
 &lt;h2 id=&quot;specifications&quot;&gt;Specifications&lt;/h2&gt;
 
@@ -807,7 +811,7 @@ The graphical artists could work the transparency into the material and normal t
   &lt;li&gt;&lt;strong&gt;Genre&lt;/strong&gt;:    3D Action RPG&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;Duration&lt;/strong&gt;: 14 Weeks Part-Time, 4h/day&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;Engine&lt;/strong&gt;:   IronWrought Engine&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Team&lt;/strong&gt;:     SoftBlob, 14 people&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Team&lt;/strong&gt;:     SoftBlob, 13 people&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;my-contributions&quot;&gt;My Contributions&lt;/h2&gt;
@@ -815,40 +819,123 @@ The graphical artists could work the transparency into the material and normal t
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;Gameplay&lt;/strong&gt; (&lt;a href=&quot;#ability&quot;&gt;Ability Architecture&lt;/a&gt;, &lt;a href=&quot;#navmesh&quot;&gt;Navigation Mesh&lt;/a&gt;)&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;Graphics&lt;/strong&gt; (&lt;a href=&quot;#rendering&quot;&gt;Render Pipeline&lt;/a&gt;, &lt;a href=&quot;#spritetext&quot;&gt;Sprite and Text Renderers&lt;/a&gt;, &lt;a href=&quot;#vfx&quot;&gt;VFX Architecture&lt;/a&gt;, &lt;a href=&quot;#outline&quot;&gt;Outline Depth Stencil Pass&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;UI&lt;/strong&gt;	   (&lt;a href=&quot;#ui&quot;&gt;UI Architecture&lt;/a&gt;, &lt;a href=&quot;#animated&quot;&gt;Animated Resource Orbs&lt;/a&gt;, &lt;a href=&quot;#bars&quot;&gt;Health and Experience Bars&lt;/a&gt;, &lt;a href=&quot;#dialogue&quot;&gt;Dialogue System&lt;/a&gt;, &lt;a href=&quot;#floating&quot;&gt;Floating Damage Numbers&lt;/a&gt;, &lt;a href=&quot;#popup&quot;&gt;Popup Text Service&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Audio&lt;/strong&gt;    (&lt;a href=&quot;#fmod&quot;&gt;FMod Wrapper&lt;/a&gt;, &lt;a href=&quot;#audio&quot;&gt;Audio Manager and Logic&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;UI&lt;/strong&gt;	   (&lt;a href=&quot;#ui&quot;&gt;UI Architecture&lt;/a&gt;, &lt;a href=&quot;#animated&quot;&gt;Animated Resource Orbs&lt;/a&gt;, &lt;a href=&quot;#dialogue&quot;&gt;Dialogue System&lt;/a&gt;, &lt;a href=&quot;#floating&quot;&gt;Floating Damage Numbers&lt;/a&gt;, &lt;a href=&quot;#popup&quot;&gt;Popup Text Service&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Audio&lt;/strong&gt;    (&lt;a href=&quot;#fmod&quot;&gt;FMod Wrapper and Audio Manager&lt;/a&gt;)&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;Voice Over, Music&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;details&quot;&gt;Details&lt;/h2&gt;
-
 &lt;h4 id=&quot;ability-architecture&quot;&gt;&lt;a id=&quot;ability&quot;&gt;Ability Architecture&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;For this project I designed the architecture surrounding abilities in the game, for the player abilities but also enemy attacks and boss abilities. Every ability was itself a game object, connected to
+the player, enemy or boss game object via a separate &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AbilityComponent&lt;/code&gt;. Each ability had its own VFX, collider and so called behavior, defining its movement pattern if relevant. 
+Each ability had its own instance pool, meaning it had a pool of instantiable objects, mostly relevant for abilities which could have multiple instances of itself active at any given time.
+Abilities were activated and updated by the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AbilityComponent&lt;/code&gt;, keeping track of its “parent” game object to make behaviors like a boomerang movement pattern possible.&lt;/p&gt;
 
 &lt;h4 id=&quot;navigation-mesh&quot;&gt;&lt;a id=&quot;navmesh&quot;&gt;Navigation Mesh&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;The navigation mesh used by characters was loaded as an obj-file exported from Unity. We used Unity to generate the mesh which left a lot to be desired in terms of accuracy, but was accepted due to time constraints.
+The character controllers used funneling to smoothen their paths, and utilized their own methods for choosing their destination. The player destination was determined by raycasting on the mesh and the enemies used 
+the current player position for their seek behaviors or were given local randomized positions when executing their wander behaviors.&lt;/p&gt;
 
 &lt;h4 id=&quot;render-pipeline&quot;&gt;&lt;a id=&quot;rendering&quot;&gt;Render Pipeline&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;This game was developed concurrently with our custom engine, IronWrought. I implemented the basis for our forward rendering pipeline based on our assignments in graphical programming, and extended this to encompass all the system necessary for the game.&lt;/p&gt;
 
 &lt;h4 id=&quot;sprite-and-text-renderers&quot;&gt;&lt;a id=&quot;spritetext&quot;&gt;Sprite and Text Renderers&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Screen space quads were used for the sprite based UI, generated from points in screen space by a geometry shader. Glyphs were generated with the help of &lt;strong&gt;&lt;a href=&quot;https://github.com/microsoft/DirectXTK&quot;&gt;DirectXTKs&lt;/a&gt;&lt;/strong&gt; spritefont utility.
+Sprites were scaled based on resolution to conserve their area on screen.&lt;/p&gt;
 
 &lt;h4 id=&quot;vfx-architecture&quot;&gt;&lt;a id=&quot;vfx&quot;&gt;VFX Architecture&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;The VFX consisted of two main elements, “VFX meshes” and particle emitters. VFX meshes were defined as models using shaders to scroll several textures over their geometry. The particle emitters used sprites for particles,
+generating a screen space quad in their geometry shader. Both meshes and particle emitters were rendered with alpha blending in a late render pass.&lt;/p&gt;
 
 &lt;h4 id=&quot;outline-depth-stencil-pass&quot;&gt;&lt;a id=&quot;outline&quot;&gt;Outline Depth Stencil Pass&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;I implemented a simple depth stencil state using stenciling, and scaled the transforms of the characters to create an outline effect for the player and the current enemy hovered over by the mouse cursor. 
+This also revealed the player model when it would get concealed by the walls of the environment. Simply scaling the transforms up and down for the outline is not optimal, but was very fast to get up and running.&lt;/p&gt;
 
 &lt;h4 id=&quot;ui-architecture&quot;&gt;&lt;a id=&quot;ui&quot;&gt;UI Architecture&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;I designed the UI architecture for this project, consisting of a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Canvas&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Button&lt;/code&gt; class as its base. There was one canvas per state in the game, and it held collections of buttons, sprites and “animated UI elements”. 
+The canvas ran the button logic but also subscribed to messages posted by the buttons. Each button had one or more messages associated with it, which were sent when an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OnClickUp()&lt;/code&gt; method was called. The buttons themselves
+had an array of sprites, each sprite associated with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Idle&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hover&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Click&lt;/code&gt; states. The button could calculate their own bounding box based on the sprite data it was initialized with, but this could also be overwritten.
+The canvases were loaded from JSON documents, and the player HUD was specialized to listen to gameplay messages such as when an ability went on cooldown for example.&lt;/p&gt;
+
+&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;window.jQuery || document.write(&apos;&lt;script src=&quot;_/js/libs/jquery-1.9.1.min.js&quot;&gt;&lt;\/script&gt;&apos;)&lt;/script&gt;
 
 &lt;h4 id=&quot;animated-resource-orbs&quot;&gt;&lt;a id=&quot;animated&quot;&gt;Animated Resource Orbs&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Inspired by &lt;strong&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=YPy2hytwDLM&quot;&gt;this&lt;/a&gt;&lt;/strong&gt; Diablo 3 talk at GDC, I wrote shaders that would scroll and display different across the surface of a sprite.
+The shader handled one to four scrolling textures for the body, one to two alpha masks which would mask the area shown, and a static overlay sprite. I used this for the health and resource globes
+on the player HUD.&lt;/p&gt;
 
-&lt;h4 id=&quot;health-and-experience-bars&quot;&gt;&lt;a id=&quot;bars&quot;&gt;Health and Experience Bars&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;A fog texture is used three times with differently scaled UV to get the roiling effect of the liquid, and a fourth is used to colorize. One mask is used as the sphere shape, and another tiling mask 
+is scrolled horizontally to create the wave effect. I highlighted the glow on the very surface of the liquid by interpolating between the existing color and a defined glow color based on the UV distance to the “level” of the surface.&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;div class=&quot;photoset-grid-custom&quot;&gt;
+       &lt;img src=&quot;/images/project_6_HUD.gif&quot; /&gt;
+    &lt;/div&gt;
+&lt;/center&gt;
+
+&lt;p&gt;This same principle is used on the health and experience bars, as well as on the cooldown effects on the ability icons.&lt;/p&gt;
 
 &lt;h4 id=&quot;dialogue-system&quot;&gt;&lt;a id=&quot;dialogue&quot;&gt;Dialogue System&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;I extended the dialogue system used in project 5 with features such as speaker portraits and titles. I also specialized it for use as the intro sequence of the game, scrolling voice line text 
+across the whole screen.&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;div class=&quot;photoset-grid-custom&quot;&gt;
+       &lt;img src=&quot;/images/project_6_dialogue.gif&quot; /&gt;
+    &lt;/div&gt;
+&lt;/center&gt;
 
 &lt;h4 id=&quot;floating-damage-numbers&quot;&gt;&lt;a id=&quot;floating&quot;&gt;Floating Damage Numbers&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;I developed a system used for spawning floating numbers above the player, for the genuine action RPG experience. Numbers were pooled and had different colors for varying strengths of
+critical hits and healing. I used an analytical function defined in code to animate the size of some of the numbers to make them visually pop. I also applied a force towards the bottom of
+the screen and had them randomize their starting directions, going northwest, northeast, southwest or southeast of the center of the screen.&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;div class=&quot;photoset-grid-custom&quot;&gt;
+       &lt;img src=&quot;/images/project_6_floating_numbers.gif&quot; /&gt;
+    &lt;/div&gt;
+&lt;/center&gt;
 
 &lt;h4 id=&quot;popup-text-service&quot;&gt;&lt;a id=&quot;popup&quot;&gt;Popup Text Service&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;The floating damage number were part of a greater utility, called the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PopupTextService&lt;/code&gt;. Apart from the damage numbers, it could also spawn fading description cards for when the player 
+unlocked new skills, spawn warning text when the players resource ran out and give instructions such as &lt;em&gt;Press Space to Continue&lt;/em&gt; during dialogue breaks.&lt;/p&gt;
 
-&lt;h4 id=&quot;fmod-wrapper&quot;&gt;&lt;a id=&quot;fmod&quot;&gt;FMod Wrapper&lt;/a&gt;&lt;/h4&gt;
+&lt;center&gt;
+    &lt;div class=&quot;photoset-grid-custom&quot;&gt;
+       &lt;img src=&quot;/images/project_6_popups.gif&quot; /&gt;
+    &lt;/div&gt;
+&lt;/center&gt;
 
-&lt;h4 id=&quot;audio-manager-and-logic&quot;&gt;&lt;a id=&quot;audio&quot;&gt;Audio Manager and Logic&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Each of these instances had their own animation data, and all of these parameters were set in JSON documents.&lt;/p&gt;
+
+&lt;h4 id=&quot;fmod-wrapper-and-audio-manager&quot;&gt;&lt;a id=&quot;fmod&quot;&gt;FMod Wrapper and Audio Manager&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Since we built the engine from scratch, we needed to implement an audio interface. We decided on FMod and I wrote the basic interface towards FMod as well as the Audio Manager using it.
+The logic for playing sounds was like in the project before based on messages sent by the gameplay logic to which Audio Manager subscribed. All sound resources were held by the manager 
+and requested from the FMod wrapper at load time. I set up FMod channels which the manager could use to group sounds and set levels for, as well as duck channels less important than others.&lt;/p&gt;
+
+&lt;script src=&quot;/assets/js/jquery.photoset-grid.js&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(&apos;.photoset-grid-custom&apos;).photosetGrid({
+    // Set the gutter between columns and rows
+    gutter: &apos;5px&apos;,
+  
+    // Wrap the images in links
+    highresLinks: true,
+  
+    // Asign a common rel attribute
+    rel: &apos;print-gallery&apos;,
+
+    onInit: function(){},
+    
+    onComplete: function(){
+        // Show the grid after it renders
+        $(&apos;.photoset-grid-custom&apos;).attr(&apos;style&apos;, &apos;&apos;);
+    }
+});
+&lt;/script&gt;
 
 </description>
         <pubDate>Tue, 22 Dec 2020 00:00:00 +0100</pubDate>
@@ -866,6 +953,8 @@ The graphical artists could work the transparency into the material and normal t
         
             <category>ui</category>
         
+            <category>audio</category>
+        
           
         
             <category>projects</category>
@@ -879,6 +968,14 @@ The graphical artists could work the transparency into the material and normal t
 	&lt;iframe width=&quot;720&quot; height=&quot;405&quot; src=&quot;https://www.youtube.com/embed/URmdP2C9fW0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 &lt;/center&gt;
 
+&lt;center&gt;
+  &lt;b&gt;&lt;a href=&quot;https://drive.google.com/file/d/1DOj4Rnva5974HHe4X_qE7rS9Jccwu0Pu/view?usp=sharing&quot; download=&quot;Ellah_Installer.exe&quot;&gt;Download Link&lt;/a&gt;&lt;/b&gt;
+&lt;/center&gt;
+
+&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;window.jQuery || document.write(&apos;&lt;script src=&quot;_/js/libs/jquery-1.9.1.min.js&quot;&gt;&lt;\/script&gt;&apos;)&lt;/script&gt;
+
 &lt;h2 id=&quot;specifications&quot;&gt;Specifications&lt;/h2&gt;
 
 &lt;ul&gt;
@@ -891,12 +988,93 @@ The graphical artists could work the transparency into the material and normal t
 &lt;h2 id=&quot;my-contributions&quot;&gt;My Contributions&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Gameplay&lt;/strong&gt; (Movable Blocks, Camera System, Ice Weapon Logic, Fire Weapon Logic, Feedback)&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Graphics&lt;/strong&gt; (Particle System Architecture, Point Light Logic)&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;UI&lt;/strong&gt;       (Dialogue System used for Hint Signs, NPC Dialogue and Inventory Lore Text)&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Audio&lt;/strong&gt;    (Audio Manager and Logic)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Gameplay&lt;/strong&gt; (&lt;a href=&quot;#blocks&quot;&gt;Movable Blocks&lt;/a&gt;, &lt;a href=&quot;#camera&quot;&gt;Camera System&lt;/a&gt;, &lt;a href=&quot;#weapons&quot;&gt;Ice and Fire Weapon Logic&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Graphics&lt;/strong&gt; (&lt;a href=&quot;#particles&quot;&gt;Particle System Architecture&lt;/a&gt;, &lt;a href=&quot;#point_lights&quot;&gt;Point Light Logic&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;UI&lt;/strong&gt;       (&lt;a href=&quot;#dialogue&quot;&gt;Dialogue System used for Hint Signs, NPC Dialogue and Inventory Lore Text&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Audio&lt;/strong&gt;    (&lt;a href=&quot;#audio&quot;&gt;Audio Manager and Logic&lt;/a&gt;)&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;Voice Over, Music&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h2 id=&quot;details&quot;&gt;Details&lt;/h2&gt;
+&lt;h4 id=&quot;movable-blocks&quot;&gt;&lt;a id=&quot;blocks&quot;&gt;Movable Blocks&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;The main mechanic of this game was to move blocks around, pushing them onto switches that would open up doors and gates. I developed most of the gameplay logic surrounding 
+this feature, creating the components for basic blocks made of rock as well as gliding ice blocks that did not stop moving until they hit something. The grid based system all
+blocking terrain and switches featured made this a bit tricky, but I think it worked out really well in the end.&lt;/p&gt;
+
+&lt;h4 id=&quot;camera-system&quot;&gt;&lt;a id=&quot;camera&quot;&gt;Camera System&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;I also developed the camera system, where a bounding box was defined for each room the player character went through. The camera view was constrained within this bounding region,
+allowing for smooth transitions between the edges of a room where the player character moved around freely and the open spaces of a room where the camera was centered on and following the character.
+When the player crossed this one such bounding box, we would call it a &lt;em&gt;boundary transition&lt;/em&gt;, entering a new room and setting a new constraining bounding box for the camera view. 
+We also had &lt;em&gt;level transitions&lt;/em&gt;, where the camera would fade out and a different level would be loaded.&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;div class=&quot;photoset-grid-custom&quot;&gt;
+       &lt;img src=&quot;/images/project_5_camera.gif&quot; /&gt;
+    &lt;/div&gt;
+&lt;/center&gt;
+
+&lt;h4 id=&quot;ice-and-fire-weapon-logic&quot;&gt;&lt;a id=&quot;weapons&quot;&gt;Ice and Fire Weapon Logic&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Apart from moving the blocks, the player could also change blocks. Using an ice ability, rock blocks could be frozen, transforming them into everything an icy block was. An icy 
+block could also be destroyed by using a fire ability, and the fire ability could also be used light braziers on fire. On the flip side, braziers could also be extinguished using
+the ice ability. This was done to enable puzzles to be designed where sometimes you needed to extinguish a flame while in others you had to ignite it. I had a major part in designing
+the components needed for this behaviour.&lt;/p&gt;
+
+&lt;h4 id=&quot;particle-system-architecture&quot;&gt;&lt;a id=&quot;particles&quot;&gt;Particle System Architecture&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;I designed and implemented the particle system architecture for this game, where all particles were pooled and reinitializable in runtime, enabling fire and ice effects on the player
+change directions depending on the player character’s facing. I also designed some of the particle systems used in the final game. Some examples include a sandstorm, a fiery crackling
+from the braziers as well as an icy glinting coming off the ice blocks. The particle system was also used in the inventory UI to mark the currently selected item. We also used it
+for a dust trail coming off of the player, a sparkling coming off of item chests, and dust arising from sliding regular blocks.&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;div class=&quot;photoset-grid-custom&quot;&gt;
+       &lt;img src=&quot;/images/project_5_particles.gif&quot; /&gt;
+    &lt;/div&gt;
+&lt;/center&gt;
+
+&lt;h4 id=&quot;point-light-logic&quot;&gt;&lt;a id=&quot;point_lights&quot;&gt;Point Light Logic&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;I set up components for point light lighting used for various effects, such as a fiery glow coming from the braziers, and icy sheen on the ice blocks and the point light centered on the
+player character. It was important that these lights be togglable, as they had to be disabled when the fires were extinguished, or ice blocks destroyed.&lt;/p&gt;
+
+&lt;h4 id=&quot;dialogue-system-used-for-hint-signs-npc-dialogue-and-inventory-lore-text&quot;&gt;&lt;a id=&quot;dialogue&quot;&gt;Dialogue System used for Hint Signs, NPC Dialogue and Inventory Lore Text&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;I developed a dialogue system which saw a lot of use in the game. Using the text rendering already in the engine, I set up a system that subscribed to messages sent by various components,
+such as hint signs, the NPC character as well as the inventory system. They all featured a unique frame. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Update()&lt;/code&gt; method of this system animated the text, using a buffer to count out
+the letters to the screen while keeping the formatting, as well as automatically use line breaks so that they did not have to be added to the text itself. The scrolling text could be sped
+up and down by holding and releasing the spacebar, as well as skipped entirely.&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;div class=&quot;photoset-grid-custom&quot; data-layout=&quot;3&quot;&gt;
+       &lt;img src=&quot;/images/project_5_hint.png&quot; /&gt;
+       &lt;img src=&quot;/images/project_5_dialogue.gif&quot; /&gt;
+       &lt;img src=&quot;/images/project_5_inventory.gif&quot; /&gt;
+    &lt;/div&gt;
+&lt;/center&gt;
+
+&lt;h4 id=&quot;audio-manager-and-logic&quot;&gt;&lt;a id=&quot;audio&quot;&gt;Audio Manager and Logic&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Finally I implemented an audio manager featuring self-made channel logic, as the TGA2D engine used Bass as its audio API. The channels could be used for grouping sound volumes, as well as
+ducking channels of lesser priority to those of a higher priority. The audio logic was based on messages to which the manager subscribed, sent from various components of the gameplay system.&lt;/p&gt;
+
+&lt;script src=&quot;/assets/js/jquery.photoset-grid.js&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(&apos;.photoset-grid-custom&apos;).photosetGrid({
+    // Set the gutter between columns and rows
+    gutter: &apos;5px&apos;,
+  
+    // Wrap the images in links
+    highresLinks: true,
+  
+    // Asign a common rel attribute
+    rel: &apos;print-gallery&apos;,
+
+    onInit: function(){},
+    
+    onComplete: function(){
+        // Show the grid after it renders
+        $(&apos;.photoset-grid-custom&apos;).attr(&apos;style&apos;, &apos;&apos;);
+    }
+});
+&lt;/script&gt;
+
 </description>
         <pubDate>Wed, 17 Jun 2020 00:00:00 +0200</pubDate>
         

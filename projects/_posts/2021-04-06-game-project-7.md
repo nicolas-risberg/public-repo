@@ -3,7 +3,7 @@ layout: project-post
 categories: projects
 title: Game Project 7 - I Am
 featured-image: /images/project-7.gif
-tags: [project, rendering, ui, vfx, audio]
+tags: [project, deferred rendering, rendering, ui, vfx, audio]
 date-string: APRIL 06, 2021
 ---
 
@@ -29,7 +29,7 @@ date-string: APRIL 06, 2021
 
 ## Details
 #### <a id="hdr">HDR</a>
-Starting on project 7 we moved to a deferred rendering pipeline instead of regular forward rendering. I took the chance to implement HDR lighting at the same time, using the filmic tonmapping equation of **<a href="https://www.gdcvault.com/play/1012351/Uncharted-2-HDR">Uncharted 2</a>**.
+Starting on project 7 we moved to a deferred rendering pipeline instead of forward rendering. I took the chance to implement HDR lighting at the same time, using the filmic tonmapping equation of **<a href="https://www.gdcvault.com/play/1012351/Uncharted-2-HDR">Uncharted 2</a>**.
 This vastly enhanced the quality of our emissive lights and improved our control over the lighting over all.
 
 #### <a id="volumetric_lighting">Volumetric Lighting</a>
