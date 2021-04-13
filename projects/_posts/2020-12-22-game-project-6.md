@@ -67,7 +67,7 @@ The canvases were loaded from JSON documents, and the player HUD was specialized
 <script>window.jQuery || document.write('<script src="_/js/libs/jquery-1.9.1.min.js"><\/script>')</script>
 
 #### <a id="animated">Animated Resource Orbs</a>
-Inspired by **<a href="https://www.youtube.com/watch?v=YPy2hytwDLM">this</a>** Diablo 3 talk at GDC, I wrote shaders that would scroll and display different across the surface of a sprite.
+Inspired by **<a href="https://www.youtube.com/watch?v=YPy2hytwDLM">this</a>** Diablo 3 talk at GDC, I wrote shaders that would multiply and scroll different textures across the surface of a sprite.
 The shader handled one to four scrolling textures for the body, one to two alpha masks which would mask the area shown, and a static overlay sprite. I used this for the health and resource globes
 on the player HUD. 
 
