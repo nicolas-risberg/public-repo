@@ -60,7 +60,7 @@ This also revealed the player model when it would get concealed by the walls of 
 #### <a id="ui">UI Architecture</a>
 I designed the UI architecture for this project, consisting of a `Canvas` and `Button` class as its base. There was one canvas per state in the game, and it held collections of buttons, sprites and "animated UI elements". 
 The canvas ran the button logic but also subscribed to messages posted by the buttons. Each button had one or more messages associated with it, which were sent when an `OnClickUp()` method was called. The buttons themselves
-had an array of sprites, each sprite associated with `Idle`, `Hover` and `Click` states. The button could calculate their own bounding box based on the sprite data it was initialized with, but this could also be overwritten.
+each had an array of sprites, each sprite associated with `Idle`, `Hover` and `Click` states. The buttons could calculate their own bounding box based on the sprite data they were initialized with, but this could also be overwritten.
 The canvases were loaded from JSON documents, and the player HUD was specialized to listen to gameplay messages such as when an ability went on cooldown for example. 
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -95,7 +95,7 @@ across the whole screen.
 #### <a id="floating">Floating Damage Numbers</a>
 I developed a system used for spawning floating numbers above the player, for the genuine action RPG experience. Numbers were pooled and had different colors for varying strengths of
 critical hits and healing. I used an analytical function defined in code to animate the size of some of the numbers to make them visually pop. I also applied a force towards the bottom of
-the screen and had them randomize their starting directions, going northwest, northeast, southwest or southeast of the center of the screen. 
+the screen and had them randomize their starting directions, going in an arc over the center of the screen. 
 
 <center>
     <div class="photoset-grid-custom">
@@ -105,8 +105,8 @@ the screen and had them randomize their starting directions, going northwest, no
 
 
 #### <a id="popup">Popup Text Service</a>
-The floating damage number were part of a greater utility, called the `PopupTextService`. Apart from the damage numbers, it could also spawn fading description cards for when the player 
-unlocked new skills, spawn warning text when the players resource ran out and give instructions such as *Press Space to Continue* during dialogue breaks.
+The floating damage numbers were part of a greater utility, called the `PopupTextService`. Apart from the damage numbers, it could also spawn fading description cards for when the player 
+unlocked new skills, spawn warning text when the player's resource ran out and give instructions such as *Press Space to Continue* during dialogue breaks.
 
 <center>
     <div class="photoset-grid-custom">
@@ -118,7 +118,7 @@ Each of these instances had their own animation data, and all of these parameter
 
 #### <a id="fmod">FMod Wrapper and Audio Manager</a>
 Since we built the engine from scratch, we needed to implement an audio interface. We decided on FMod and I wrote the basic interface towards FMod as well as the Audio Manager using it.
-The logic for playing sounds was like in the project before based on messages sent by the gameplay logic to which Audio Manager subscribed. All sound resources were held by the manager 
+The logic for playing sounds was like in the project before based on messages sent by the gameplay logic to which the audio manager subscribed. All sound resources were held by the manager 
 and requested from the FMod wrapper at load time. I set up FMod channels which the manager could use to group sounds and set levels for, as well as duck channels less important than others.
 
 <script src="/assets/js/jquery.photoset-grid.js"></script>

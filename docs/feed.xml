@@ -5,8 +5,8 @@
     <description>Online Portfolio showcasing schoolwork done at The Game Assembly in Stockholm, 2021 as well as my CV and other cool things.</description>
     <link>/</link>
     <atom:link href="nathanrooy.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 13 Apr 2021 20:16:02 +0200</pubDate>
-    <lastBuildDate>Tue, 13 Apr 2021 20:16:02 +0200</lastBuildDate>
+    <pubDate>Tue, 13 Apr 2021 21:09:51 +0200</pubDate>
+    <lastBuildDate>Tue, 13 Apr 2021 21:09:51 +0200</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
       
     
@@ -53,10 +53,10 @@ This Material Handler was also used to handle decal textures and materials used 
 &lt;p&gt;Please see the &lt;strong&gt;&lt;a href=&quot;https://nicolas-risberg.github.io/2021-03-01/deferred-decals.html&quot;&gt;post&lt;/a&gt;&lt;/strong&gt; I made about deferred decals in the highlights.&lt;/p&gt;
 
 &lt;h4 id=&quot;vfx-editor&quot;&gt;&lt;a id=&quot;vfx_editor&quot;&gt;VFX Editor&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;Please see the &lt;strong&gt;&lt;a href=&quot;https://nicolas-risberg.github.io/2021-03-30/vfx-editor.html&quot;&gt;post&lt;/a&gt;&lt;/strong&gt; I made about deferred decals in the highlights.&lt;/p&gt;
+&lt;p&gt;Please see the &lt;strong&gt;&lt;a href=&quot;https://nicolas-risberg.github.io/2021-03-30/vfx-editor.html&quot;&gt;post&lt;/a&gt;&lt;/strong&gt; I made about the VFX editor in the highlights.&lt;/p&gt;
 
 &lt;h4 id=&quot;vertex-painting&quot;&gt;&lt;a id=&quot;vertex_paint&quot;&gt;Vertex Painting&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;I worked with &lt;strong&gt;&lt;a href=&quot;http://axelsavage.com&quot;&gt;Axel Savage&lt;/a&gt;&lt;/strong&gt; on implementing vertex painting from Unity. On the Unity side we used **&lt;a href=&quot;https://unity3d.com/unity/features/worldbuilding/polybrush&quot;&gt;Polybrush&lt;/a&gt; to paint data on the meshes, and the per-vertex data was
+&lt;p&gt;I worked with &lt;strong&gt;&lt;a href=&quot;http://axelsavage.com&quot;&gt;Axel Savage&lt;/a&gt;&lt;/strong&gt; on implementing vertex painting from Unity. On the Unity side we used &lt;strong&gt;&lt;a href=&quot;https://unity3d.com/unity/features/worldbuilding/polybrush&quot;&gt;Polybrush&lt;/a&gt;&lt;/strong&gt; to paint data on the meshes, and the per-vertex data was
 exported to our engine. The order of indices in the index buffer turned out to not be the same when the data came from Unity, so we resorted to making a hash function for the vertex positions in order to correctly map position to color using the order we loaded from the FBX file.&lt;/p&gt;
 
 &lt;p&gt;In the pixel shader, all values associated with the PBR materials were interpolated using the color values as weights.&lt;/p&gt;
@@ -142,7 +142,7 @@ were only really relevant to the base canvas. Since we only used this system in 
 &lt;p&gt;Some of the other team members, especially &lt;strong&gt;&lt;a href=&quot;http://haqvinbager.github.io&quot;&gt;Haqvin Bager&lt;/a&gt;&lt;/strong&gt; built a node editor using &lt;strong&gt;&lt;a href=&quot;https://github.com/ocornut/imgui&quot;&gt;ImGui&lt;/a&gt;&lt;/strong&gt; for this project.
 I contributed to this editor by making nodes that would play sounds, for playing voice lines on event triggers in the levels as well as playing randomized SFX and reactionary voice lines based on certain categories. 
 Categories included &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RobotDeath&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PlayerStepAirVent&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ResearcherPickUpExplosivesReaction&lt;/code&gt; among others.
-The audio manager would load lists of clips based on each category on start up, and randomize (cycling through the whole list before replaying) when receiving a message from the node editor.&lt;/p&gt;
+The audio manager would load lists of clips based on each category on start up, and randomize (cycling through the whole list before replaying) what clip to play when receiving a message from the node editor.&lt;/p&gt;
 </description>
         <pubDate>Tue, 06 Apr 2021 00:00:00 +0200</pubDate>
         
@@ -854,7 +854,7 @@ This also revealed the player model when it would get concealed by the walls of 
 &lt;h4 id=&quot;ui-architecture&quot;&gt;&lt;a id=&quot;ui&quot;&gt;UI Architecture&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;I designed the UI architecture for this project, consisting of a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Canvas&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Button&lt;/code&gt; class as its base. There was one canvas per state in the game, and it held collections of buttons, sprites and “animated UI elements”. 
 The canvas ran the button logic but also subscribed to messages posted by the buttons. Each button had one or more messages associated with it, which were sent when an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OnClickUp()&lt;/code&gt; method was called. The buttons themselves
-had an array of sprites, each sprite associated with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Idle&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hover&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Click&lt;/code&gt; states. The button could calculate their own bounding box based on the sprite data it was initialized with, but this could also be overwritten.
+each had an array of sprites, each sprite associated with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Idle&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hover&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Click&lt;/code&gt; states. The buttons could calculate their own bounding box based on the sprite data they were initialized with, but this could also be overwritten.
 The canvases were loaded from JSON documents, and the player HUD was specialized to listen to gameplay messages such as when an ability went on cooldown for example.&lt;/p&gt;
 
 &lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&quot;&gt;&lt;/script&gt;
@@ -862,7 +862,7 @@ The canvases were loaded from JSON documents, and the player HUD was specialized
 &lt;script&gt;window.jQuery || document.write(&apos;&lt;script src=&quot;_/js/libs/jquery-1.9.1.min.js&quot;&gt;&lt;\/script&gt;&apos;)&lt;/script&gt;
 
 &lt;h4 id=&quot;animated-resource-orbs&quot;&gt;&lt;a id=&quot;animated&quot;&gt;Animated Resource Orbs&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;Inspired by &lt;strong&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=YPy2hytwDLM&quot;&gt;this&lt;/a&gt;&lt;/strong&gt; Diablo 3 talk at GDC, I wrote shaders that would scroll and multiply different textures across the surface of a sprite.
+&lt;p&gt;Inspired by &lt;strong&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=YPy2hytwDLM&quot;&gt;this&lt;/a&gt;&lt;/strong&gt; Diablo 3 talk at GDC, I wrote shaders that would multiply and scroll different textures across the surface of a sprite.
 The shader handled one to four scrolling textures for the body, one to two alpha masks which would mask the area shown, and a static overlay sprite. I used this for the health and resource globes
 on the player HUD.&lt;/p&gt;
 
@@ -890,7 +890,7 @@ across the whole screen.&lt;/p&gt;
 &lt;h4 id=&quot;floating-damage-numbers&quot;&gt;&lt;a id=&quot;floating&quot;&gt;Floating Damage Numbers&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;I developed a system used for spawning floating numbers above the player, for the genuine action RPG experience. Numbers were pooled and had different colors for varying strengths of
 critical hits and healing. I used an analytical function defined in code to animate the size of some of the numbers to make them visually pop. I also applied a force towards the bottom of
-the screen and had them randomize their starting directions, going northwest, northeast, southwest or southeast of the center of the screen.&lt;/p&gt;
+the screen and had them randomize their starting directions, going in an arc over the center of the screen.&lt;/p&gt;
 
 &lt;center&gt;
     &lt;div class=&quot;photoset-grid-custom&quot;&gt;
@@ -899,8 +899,8 @@ the screen and had them randomize their starting directions, going northwest, no
 &lt;/center&gt;
 
 &lt;h4 id=&quot;popup-text-service&quot;&gt;&lt;a id=&quot;popup&quot;&gt;Popup Text Service&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;The floating damage number were part of a greater utility, called the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PopupTextService&lt;/code&gt;. Apart from the damage numbers, it could also spawn fading description cards for when the player 
-unlocked new skills, spawn warning text when the players resource ran out and give instructions such as &lt;em&gt;Press Space to Continue&lt;/em&gt; during dialogue breaks.&lt;/p&gt;
+&lt;p&gt;The floating damage numbers were part of a greater utility, called the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PopupTextService&lt;/code&gt;. Apart from the damage numbers, it could also spawn fading description cards for when the player 
+unlocked new skills, spawn warning text when the player’s resource ran out and give instructions such as &lt;em&gt;Press Space to Continue&lt;/em&gt; during dialogue breaks.&lt;/p&gt;
 
 &lt;center&gt;
     &lt;div class=&quot;photoset-grid-custom&quot;&gt;
@@ -912,7 +912,7 @@ unlocked new skills, spawn warning text when the players resource ran out and gi
 
 &lt;h4 id=&quot;fmod-wrapper-and-audio-manager&quot;&gt;&lt;a id=&quot;fmod&quot;&gt;FMod Wrapper and Audio Manager&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Since we built the engine from scratch, we needed to implement an audio interface. We decided on FMod and I wrote the basic interface towards FMod as well as the Audio Manager using it.
-The logic for playing sounds was like in the project before based on messages sent by the gameplay logic to which Audio Manager subscribed. All sound resources were held by the manager 
+The logic for playing sounds was like in the project before based on messages sent by the gameplay logic to which the audio manager subscribed. All sound resources were held by the manager 
 and requested from the FMod wrapper at load time. I set up FMod channels which the manager could use to group sounds and set levels for, as well as duck channels less important than others.&lt;/p&gt;
 
 &lt;script src=&quot;/assets/js/jquery.photoset-grid.js&quot;&gt;&lt;/script&gt;
@@ -997,14 +997,14 @@ and requested from the FMod wrapper at load time. I set up FMod channels which t
 
 &lt;h2 id=&quot;details&quot;&gt;Details&lt;/h2&gt;
 &lt;h4 id=&quot;movable-blocks&quot;&gt;&lt;a id=&quot;blocks&quot;&gt;Movable Blocks&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;The main mechanic of this game was to move blocks around, pushing them onto switches that would open up doors and gates. I developed most of the gameplay logic surrounding 
-this feature, creating the components for basic blocks made of rock as well as gliding ice blocks that did not stop moving until they hit something. The grid based system all
-blocking terrain and switches featured made this a bit tricky, but I think it worked out really well in the end.&lt;/p&gt;
+&lt;p&gt;The main mechanic of this game was to move blocks around, pushing them onto switches that would open up doors and gates. I developed much of the gameplay logic surrounding 
+this feature, creating the components for basic blocks made of rock as well as gliding ice blocks that did not stop moving until they hit something. The grid based system and all
+the blocking terrain and switches featured made this a bit tricky, but I think it worked out really well in the end.&lt;/p&gt;
 
 &lt;h4 id=&quot;camera-system&quot;&gt;&lt;a id=&quot;camera&quot;&gt;Camera System&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;I also developed the camera system, where a bounding box was defined for each room the player character went through. The camera view was constrained within this bounding region,
 allowing for smooth transitions between the edges of a room where the player character moved around freely and the open spaces of a room where the camera was centered on and following the character.
-When the player crossed this one such bounding box, we would call it a &lt;em&gt;boundary transition&lt;/em&gt;, entering a new room and setting a new constraining bounding box for the camera view. 
+When the player crossed one such bounding box, we would call it a &lt;em&gt;boundary transition&lt;/em&gt;, entering a new room and setting a new constraining bounding box for the camera view. 
 We also had &lt;em&gt;level transitions&lt;/em&gt;, where the camera would fade out and a different level would be loaded.&lt;/p&gt;
 
 &lt;center&gt;
@@ -1020,9 +1020,9 @@ the ice ability. This was done to enable puzzles to be designed where sometimes 
 the components needed for this behaviour.&lt;/p&gt;
 
 &lt;h4 id=&quot;particle-system-architecture&quot;&gt;&lt;a id=&quot;particles&quot;&gt;Particle System Architecture&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;I designed and implemented the particle system architecture for this game, where all particles were pooled and reinitializable in runtime, enabling fire and ice effects on the player
-change directions depending on the player character’s facing. I also designed some of the particle systems used in the final game. Some examples include a sandstorm, a fiery crackling
-from the braziers as well as an icy glinting coming off the ice blocks. The particle system was also used in the inventory UI to mark the currently selected item. We also used it
+&lt;p&gt;I designed and implemented the particle system architecture for this game, where all particles were pooled and reinitializable in runtime, enabling the fire and ice effects coming from the player
+character to change directions depending on the character’s facing. I also designed some of the particle systems used in the final game. Some examples include a sandstorm, a fiery crackling
+from the braziers as well as an icy glinting coming off of the ice blocks. The particle system was also used in the inventory UI to mark the currently selected item. We also used it
 for a dust trail coming off of the player, a sparkling coming off of item chests, and dust arising from sliding regular blocks.&lt;/p&gt;
 
 &lt;center&gt;
@@ -1037,7 +1037,7 @@ player character. It was important that these lights be togglable, as they had t
 
 &lt;h4 id=&quot;dialogue-system-used-for-hint-signs-npc-dialogue-and-inventory-lore-text&quot;&gt;&lt;a id=&quot;dialogue&quot;&gt;Dialogue System used for Hint Signs, NPC Dialogue and Inventory Lore Text&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;I developed a dialogue system which saw a lot of use in the game. Using the text rendering already in the engine, I set up a system that subscribed to messages sent by various components,
-such as hint signs, the NPC character as well as the inventory system. They all featured a unique frame. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Update()&lt;/code&gt; method of this system animated the text, using a buffer to count out
+such as hint signs, the NPC character as well as the inventory system. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Update()&lt;/code&gt; method of this system animated the text, using a buffer to count out
 the letters to the screen while keeping the formatting, as well as automatically use line breaks so that they did not have to be added to the text itself. The scrolling text could be sped
 up and down by holding and releasing the spacebar, as well as skipped entirely.&lt;/p&gt;
 

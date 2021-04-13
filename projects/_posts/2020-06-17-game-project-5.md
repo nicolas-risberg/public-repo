@@ -35,14 +35,14 @@ date-string: APRIL 06, 2021
 
 ## Details
 #### <a id="blocks">Movable Blocks</a>
-The main mechanic of this game was to move blocks around, pushing them onto switches that would open up doors and gates. I developed most of the gameplay logic surrounding 
-this feature, creating the components for basic blocks made of rock as well as gliding ice blocks that did not stop moving until they hit something. The grid based system all
-blocking terrain and switches featured made this a bit tricky, but I think it worked out really well in the end. 
+The main mechanic of this game was to move blocks around, pushing them onto switches that would open up doors and gates. I developed much of the gameplay logic surrounding 
+this feature, creating the components for basic blocks made of rock as well as gliding ice blocks that did not stop moving until they hit something. The grid based system and all
+the blocking terrain and switches featured made this a bit tricky, but I think it worked out really well in the end. 
 
 #### <a id="camera">Camera System</a>
 I also developed the camera system, where a bounding box was defined for each room the player character went through. The camera view was constrained within this bounding region,
 allowing for smooth transitions between the edges of a room where the player character moved around freely and the open spaces of a room where the camera was centered on and following the character.
-When the player crossed this one such bounding box, we would call it a *boundary transition*, entering a new room and setting a new constraining bounding box for the camera view. 
+When the player crossed one such bounding box, we would call it a *boundary transition*, entering a new room and setting a new constraining bounding box for the camera view. 
 We also had *level transitions*, where the camera would fade out and a different level would be loaded.
 
 <center>
@@ -58,9 +58,9 @@ the ice ability. This was done to enable puzzles to be designed where sometimes 
 the components needed for this behaviour.
 
 #### <a id="particles">Particle System Architecture</a>
-I designed and implemented the particle system architecture for this game, where all particles were pooled and reinitializable in runtime, enabling fire and ice effects on the player
-change directions depending on the player character's facing. I also designed some of the particle systems used in the final game. Some examples include a sandstorm, a fiery crackling
-from the braziers as well as an icy glinting coming off the ice blocks. The particle system was also used in the inventory UI to mark the currently selected item. We also used it
+I designed and implemented the particle system architecture for this game, where all particles were pooled and reinitializable in runtime, enabling the fire and ice effects coming from the player
+character to change directions depending on the character's facing. I also designed some of the particle systems used in the final game. Some examples include a sandstorm, a fiery crackling
+from the braziers as well as an icy glinting coming off of the ice blocks. The particle system was also used in the inventory UI to mark the currently selected item. We also used it
 for a dust trail coming off of the player, a sparkling coming off of item chests, and dust arising from sliding regular blocks.
 
 <center>
@@ -76,7 +76,7 @@ player character. It was important that these lights be togglable, as they had t
 
 #### <a id="dialogue">Dialogue System used for Hint Signs, NPC Dialogue and Inventory Lore Text</a>
 I developed a dialogue system which saw a lot of use in the game. Using the text rendering already in the engine, I set up a system that subscribed to messages sent by various components,
-such as hint signs, the NPC character as well as the inventory system. They all featured a unique frame. The `Update()` method of this system animated the text, using a buffer to count out
+such as hint signs, the NPC character as well as the inventory system. The `Update()` method of this system animated the text, using a buffer to count out
 the letters to the screen while keeping the formatting, as well as automatically use line breaks so that they did not have to be added to the text itself. The scrolling text could be sped
 up and down by holding and releasing the spacebar, as well as skipped entirely.
 

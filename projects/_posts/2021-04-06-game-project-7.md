@@ -44,10 +44,10 @@ This Material Handler was also used to handle decal textures and materials used 
 Please see the **<a href="https://nicolas-risberg.github.io/2021-03-01/deferred-decals.html">post</a>** I made about deferred decals in the highlights.
 
 #### <a id="vfx_editor">VFX Editor</a>
-Please see the **<a href="https://nicolas-risberg.github.io/2021-03-30/vfx-editor.html">post</a>** I made about deferred decals in the highlights.
+Please see the **<a href="https://nicolas-risberg.github.io/2021-03-30/vfx-editor.html">post</a>** I made about the VFX editor in the highlights.
 
 #### <a id="vertex_paint">Vertex Painting</a>
-I worked with **<a href="http://axelsavage.com">Axel Savage</a>** on implementing vertex painting from Unity. On the Unity side we used **<a href="https://unity3d.com/unity/features/worldbuilding/polybrush">Polybrush</a> to paint data on the meshes, and the per-vertex data was
+I worked with **<a href="http://axelsavage.com">Axel Savage</a>** on implementing vertex painting from Unity. On the Unity side we used **<a href="https://unity3d.com/unity/features/worldbuilding/polybrush">Polybrush</a>** to paint data on the meshes, and the per-vertex data was
 exported to our engine. The order of indices in the index buffer turned out to not be the same when the data came from Unity, so we resorted to making a hash function for the vertex positions in order to correctly map position to color using the order we loaded from the FBX file.
 
 In the pixel shader, all values associated with the PBR materials were interpolated using the color values as weights. 
@@ -136,4 +136,4 @@ were only really relevant to the base canvas. Since we only used this system in 
 Some of the other team members, especially **<a href="http://haqvinbager.github.io">Haqvin Bager</a>** built a node editor using **<a href="https://github.com/ocornut/imgui">ImGui</a>** for this project.
 I contributed to this editor by making nodes that would play sounds, for playing voice lines on event triggers in the levels as well as playing randomized SFX and reactionary voice lines based on certain categories. 
 Categories included `RobotDeath`, `PlayerStepAirVent` and `ResearcherPickUpExplosivesReaction` among others.
-The audio manager would load lists of clips based on each category on start up, and randomize (cycling through the whole list before replaying) when receiving a message from the node editor.
+The audio manager would load lists of clips based on each category on start up, and randomize (cycling through the whole list before replaying) what clip to play when receiving a message from the node editor.

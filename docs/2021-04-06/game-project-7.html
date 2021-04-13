@@ -157,10 +157,10 @@ This Material Handler was also used to handle decal textures and materials used 
 <p>Please see the <strong><a href="https://nicolas-risberg.github.io/2021-03-01/deferred-decals.html">post</a></strong> I made about deferred decals in the highlights.</p>
 
 <h4 id="vfx-editor"><a id="vfx_editor">VFX Editor</a></h4>
-<p>Please see the <strong><a href="https://nicolas-risberg.github.io/2021-03-30/vfx-editor.html">post</a></strong> I made about deferred decals in the highlights.</p>
+<p>Please see the <strong><a href="https://nicolas-risberg.github.io/2021-03-30/vfx-editor.html">post</a></strong> I made about the VFX editor in the highlights.</p>
 
 <h4 id="vertex-painting"><a id="vertex_paint">Vertex Painting</a></h4>
-<p>I worked with <strong><a href="http://axelsavage.com">Axel Savage</a></strong> on implementing vertex painting from Unity. On the Unity side we used **<a href="https://unity3d.com/unity/features/worldbuilding/polybrush">Polybrush</a> to paint data on the meshes, and the per-vertex data was
+<p>I worked with <strong><a href="http://axelsavage.com">Axel Savage</a></strong> on implementing vertex painting from Unity. On the Unity side we used <strong><a href="https://unity3d.com/unity/features/worldbuilding/polybrush">Polybrush</a></strong> to paint data on the meshes, and the per-vertex data was
 exported to our engine. The order of indices in the index buffer turned out to not be the same when the data came from Unity, so we resorted to making a hash function for the vertex positions in order to correctly map position to color using the order we loaded from the FBX file.</p>
 
 <p>In the pixel shader, all values associated with the PBR materials were interpolated using the color values as weights.</p>
@@ -246,7 +246,7 @@ were only really relevant to the base canvas. Since we only used this system in 
 <p>Some of the other team members, especially <strong><a href="http://haqvinbager.github.io">Haqvin Bager</a></strong> built a node editor using <strong><a href="https://github.com/ocornut/imgui">ImGui</a></strong> for this project.
 I contributed to this editor by making nodes that would play sounds, for playing voice lines on event triggers in the levels as well as playing randomized SFX and reactionary voice lines based on certain categories. 
 Categories included <code class="language-plaintext highlighter-rouge">RobotDeath</code>, <code class="language-plaintext highlighter-rouge">PlayerStepAirVent</code> and <code class="language-plaintext highlighter-rouge">ResearcherPickUpExplosivesReaction</code> among others.
-The audio manager would load lists of clips based on each category on start up, and randomize (cycling through the whole list before replaying) when receiving a message from the node editor.</p>
+The audio manager would load lists of clips based on each category on start up, and randomize (cycling through the whole list before replaying) what clip to play when receiving a message from the node editor.</p>
 
             </div>
 

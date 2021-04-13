@@ -173,7 +173,7 @@ This also revealed the player model when it would get concealed by the walls of 
 <h4 id="ui-architecture"><a id="ui">UI Architecture</a></h4>
 <p>I designed the UI architecture for this project, consisting of a <code class="language-plaintext highlighter-rouge">Canvas</code> and <code class="language-plaintext highlighter-rouge">Button</code> class as its base. There was one canvas per state in the game, and it held collections of buttons, sprites and “animated UI elements”. 
 The canvas ran the button logic but also subscribed to messages posted by the buttons. Each button had one or more messages associated with it, which were sent when an <code class="language-plaintext highlighter-rouge">OnClickUp()</code> method was called. The buttons themselves
-had an array of sprites, each sprite associated with <code class="language-plaintext highlighter-rouge">Idle</code>, <code class="language-plaintext highlighter-rouge">Hover</code> and <code class="language-plaintext highlighter-rouge">Click</code> states. The button could calculate their own bounding box based on the sprite data it was initialized with, but this could also be overwritten.
+each had an array of sprites, each sprite associated with <code class="language-plaintext highlighter-rouge">Idle</code>, <code class="language-plaintext highlighter-rouge">Hover</code> and <code class="language-plaintext highlighter-rouge">Click</code> states. The buttons could calculate their own bounding box based on the sprite data they were initialized with, but this could also be overwritten.
 The canvases were loaded from JSON documents, and the player HUD was specialized to listen to gameplay messages such as when an ability went on cooldown for example.</p>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -181,7 +181,7 @@ The canvases were loaded from JSON documents, and the player HUD was specialized
 <script>window.jQuery || document.write('<script src="_/js/libs/jquery-1.9.1.min.js"><\/script>')</script>
 
 <h4 id="animated-resource-orbs"><a id="animated">Animated Resource Orbs</a></h4>
-<p>Inspired by <strong><a href="https://www.youtube.com/watch?v=YPy2hytwDLM">this</a></strong> Diablo 3 talk at GDC, I wrote shaders that would scroll and multiply different textures across the surface of a sprite.
+<p>Inspired by <strong><a href="https://www.youtube.com/watch?v=YPy2hytwDLM">this</a></strong> Diablo 3 talk at GDC, I wrote shaders that would multiply and scroll different textures across the surface of a sprite.
 The shader handled one to four scrolling textures for the body, one to two alpha masks which would mask the area shown, and a static overlay sprite. I used this for the health and resource globes
 on the player HUD.</p>
 
@@ -209,7 +209,7 @@ across the whole screen.</p>
 <h4 id="floating-damage-numbers"><a id="floating">Floating Damage Numbers</a></h4>
 <p>I developed a system used for spawning floating numbers above the player, for the genuine action RPG experience. Numbers were pooled and had different colors for varying strengths of
 critical hits and healing. I used an analytical function defined in code to animate the size of some of the numbers to make them visually pop. I also applied a force towards the bottom of
-the screen and had them randomize their starting directions, going northwest, northeast, southwest or southeast of the center of the screen.</p>
+the screen and had them randomize their starting directions, going in an arc over the center of the screen.</p>
 
 <center>
     <div class="photoset-grid-custom">
@@ -218,8 +218,8 @@ the screen and had them randomize their starting directions, going northwest, no
 </center>
 
 <h4 id="popup-text-service"><a id="popup">Popup Text Service</a></h4>
-<p>The floating damage number were part of a greater utility, called the <code class="language-plaintext highlighter-rouge">PopupTextService</code>. Apart from the damage numbers, it could also spawn fading description cards for when the player 
-unlocked new skills, spawn warning text when the players resource ran out and give instructions such as <em>Press Space to Continue</em> during dialogue breaks.</p>
+<p>The floating damage numbers were part of a greater utility, called the <code class="language-plaintext highlighter-rouge">PopupTextService</code>. Apart from the damage numbers, it could also spawn fading description cards for when the player 
+unlocked new skills, spawn warning text when the player’s resource ran out and give instructions such as <em>Press Space to Continue</em> during dialogue breaks.</p>
 
 <center>
     <div class="photoset-grid-custom">
@@ -231,7 +231,7 @@ unlocked new skills, spawn warning text when the players resource ran out and gi
 
 <h4 id="fmod-wrapper-and-audio-manager"><a id="fmod">FMod Wrapper and Audio Manager</a></h4>
 <p>Since we built the engine from scratch, we needed to implement an audio interface. We decided on FMod and I wrote the basic interface towards FMod as well as the Audio Manager using it.
-The logic for playing sounds was like in the project before based on messages sent by the gameplay logic to which Audio Manager subscribed. All sound resources were held by the manager 
+The logic for playing sounds was like in the project before based on messages sent by the gameplay logic to which the audio manager subscribed. All sound resources were held by the manager 
 and requested from the FMod wrapper at load time. I set up FMod channels which the manager could use to group sounds and set levels for, as well as duck channels less important than others.</p>
 
 <script src="/assets/js/jquery.photoset-grid.js"></script>
