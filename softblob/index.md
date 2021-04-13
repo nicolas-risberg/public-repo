@@ -51,7 +51,7 @@ Please check out their incredible portfolios:
 		<div class="RightBox">
 			<p>
 			<b><a href="https://www.artstation.com/joseri">Josephine Eriksson</a></b><br>
-			David Rubarth<br>
+			<b><a href="https://www.artstation.com/rubox">David Rubarth</a></b><br>
 			</p>
 		</div>
 
@@ -91,7 +91,7 @@ Please check out their incredible portfolios:
 	
 		<div class="RightBox">
 			<p>
-			Hugo Beguier<br>
+			<b><a href="https://www.hugobeguier.com/">Hugo Beguier</a></b><br>
 			Alexander Matthai<br>
 			<b><a href="http://axelsavage.com/">Axel Savage</a></b><br>
 			</p>
